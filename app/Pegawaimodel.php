@@ -17,4 +17,5 @@ class PegawaiModel extends Model
     'kode_unitkerja'
 ];
   
+
 }

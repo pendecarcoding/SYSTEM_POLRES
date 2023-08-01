@@ -241,7 +241,7 @@ if(Session::get('level')=='user'){
           map: map,
 
 
-          icon: "https://bengkaliskab.go.id/gis/images/building.png"
+          // icon: "https://bengkaliskab.go.id/gis/images/building.png"
 
 
           });

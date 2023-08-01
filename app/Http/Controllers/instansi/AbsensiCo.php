@@ -40,7 +40,9 @@ public function index(){
   return view($this->index,compact('pg'));
 }
 public function laporan(){
-  return view($this->main.'.laporan');
+  $class       = new Cmenu();
+  $skpd = $listintansi = (object) $class->listinstansi();
+  return view($this->main.'.laporan',compact('skpd'));
 }
 public function save(Request $r){
   if($r->file('file')) {

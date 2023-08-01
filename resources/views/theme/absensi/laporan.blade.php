@@ -147,6 +147,7 @@
           </div>-->
                         <a style="float:right;color:white" class="btn btn-primary"><i class="fa fa-print"></i> Cetak
                             data</a>
+                          
                         <select id="jenisabsen" class="form-control" style="width:20%;float:right;margin-right:2px;"
                             name="jenis">
                             <option>--Jenis Absensi--</option>
@@ -155,6 +156,13 @@
                         </select>
                         <input id="tgl" style="width:20%;float:right;margin-right:2px;" type="date"
                             name="tgl" class="form-control" value="2023-08-01">
+                            <select id="jenisabsen" class="form-control" style="width:20%;float:right;margin-right:2px;"
+                            name="jenis">
+                            <option>--Pilih SKPD--</option>
+                            @foreach($skpd as $i =>$v)
+                            <option value="M">{{$v->nama_unitkerja}}</option>
+                            @endforeach
+                        </select>
                         <h4 class="card-title"><i class="fa fa-calendar"></i> Data Absensi</h4>
 
 

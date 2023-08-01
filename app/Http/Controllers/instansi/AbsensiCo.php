@@ -11,7 +11,7 @@ use App\galerymodel;
 use App\aksesmenuModel;
 use App\KordinatModel;
 use App\AbsenModel;
-use App\Pegawaimodel;
+use App\PegawaiModel;
 use App\Cmenu;
 use DateTime;
 use DatePeriod;
@@ -36,7 +36,7 @@ public function index(){
   
   $data     = $class->getpegawaiinstansi($ki);*/
   $ki       = substr(Session::get('kode_unitkerja'),0,8);
-  $pg       = Pegawaimodel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+  $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
   return view($this->index,compact('pg'));
 }
 public function laporan(){
@@ -146,7 +146,7 @@ public function apiabsen(){
   $data     = $class->getpegawaiinstansi($ki);*/
   $array    = array();
   $ki       = substr(Session::get('kode_unitkerja'),0,8);
-  $pg       = Pegawaimodel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+  $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
   foreach($pg as $i => $v){
     $absensi = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->where('tglabsen',date('Y-m-d'))->first();
     $data =[
@@ -182,7 +182,7 @@ public function getdataabsenfromjenis(Request $r){
   $data     = $class->getpegawaiinstansi($ki);*/
   $array    = array();
   $ki       = substr(Session::get('kode_unitkerja'),0,8);
-  $pg       = Pegawaimodel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+  $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
   foreach($pg as $i => $v){
     $absensi = AbsenModel::where('jenis',$r->jenisabsen)->where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->where('tglabsen',$r->tanggalabsen)->first();
     $data =[

@@ -80,11 +80,11 @@
                         <div class="collapse navbar-collapse sub-menu-bar" id="navbarTwo">
                             <ul class="navbar-nav m-auto">
                                 <li class="nav-item active"><a class="page-scroll" href="#home">home</a></li>
-                                <li class="nav-item"><a class="page-scroll" href="#services">Services</a></li>
-                                <li class="nav-item"><a class="page-scroll" href="#portfolio">Portfolio</a></li>
+                                <li class="nav-item"><a class="page-scroll" href="#services">Fitur Aplikasi</a></li>
+                                <li class="nav-item"><a class="page-scroll" href="#portfolio">Panduan Aplikasi</a></li>
                                 <li class="nav-item"><a class="page-scroll" href="#pricing">Pricing</a></li>
                                 <li class="nav-item"><a class="page-scroll" href="#about">About</a></li>
-                                <li class="nav-item"><a class="page-scroll" href="#contact">Contact</a></li>
+                                <li class="nav-item"><a class="page-scroll" href="#contact">Titik Kordinat</a></li>
                             </ul>
                         </div>
                         
@@ -117,8 +117,8 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">Business is Now Digital</h1>
-                                    <p class="text">We blend insights and strategy to create digital products for forward-thinking organisations.</p>
+                                    <h1 class="title">E-ABSENSI</h1>
+                                    <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis. Sistem ini merupakan inovasi Pemerintah kabupaten bengkalis dalam melakukan ABSENSI di seluruh SKPD Kabupaten Bengkalis</p>
                                     <ul class="slider-btn rounded-buttons">
                                         <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
@@ -139,8 +139,8 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">Crafted for Business</h1>
-                                    <p class="text">We blend insights and strategy to create digital products for forward-thinking organisations.</p>
+                                    <h1 class="title">E-ABSENSI KABUPATEN BENGKALIS</h1>
+                                    <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
                                     <ul class="slider-btn rounded-buttons">
                                         <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
@@ -161,8 +161,8 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">Based on Bootstrap 4</h1>
-                                    <p class="text">We blend insights and strategy to create digital products for forward-thinking organisations.</p>
+                                    <h1 class="title">E-ABSENSI</h1>
+                                    <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
                                     <ul class="slider-btn rounded-buttons">
                                         <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>

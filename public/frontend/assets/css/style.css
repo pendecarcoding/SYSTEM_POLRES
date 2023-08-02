@@ -2402,6 +2402,7 @@ p {
       width: 100%; }
 
 .slider-content {
+  height: 100vh;
   position: relative;
   z-index: 9;
   padding-top: 240px;

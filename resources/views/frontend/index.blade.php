@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     
     <!--====== Title ======-->
-    <title>Smash - Bootstrap Business Template</title>
+    <title>APLIKASI-ABSENSI KABUPATEN BENGKALIS</title>
     
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,8 +67,8 @@
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg">
                        
-                        <a class="navbar-brand" href="#">
-                            <img src="{{asset('frontend')}}/assets/images/logo.svg" alt="Logo">
+                        <a href="#">
+                            <img style="width:70px" src="{{asset('frontend')}}/assets/images/logo.png" alt="Logo">
                         </a>
                         
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTwo" aria-controls="navbarTwo" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
                         
                         <div class="navbar-btn d-none d-sm-inline-block">
                             <ul>
-                                <li><a class="solid" href="#">Download</a></li>
+                                <li><a class="solid" href="{{url('/login')}}">Login</a></li>
                             </ul>
                         </div>
                     </nav> <!-- navbar -->
@@ -378,8 +378,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-10">
                     <div class="section-title text-center pb-30">
-                        <h3 class="title">Contact</h3>
-                        <p class="text">Stop wasting time and money designing and managing a website that doesn’t get results. Happiness guaranteed!</p>
+                        <h3 class="title">Titik Sebaran Kordinat ABSENSI</h3>
+                        <p class="text">Titik sebaran ini adalah lokasi absensi seluruh SKPD di pemerintah Kabupaten Bengkalis</p>
                     </div> <!-- section title -->
                 </div>
             </div> <!-- row -->
@@ -483,7 +483,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="footer-logo text-center">
-                        <a class="mt-30" href="index.html"><img src="{{asset('frontend')}}/assets/images/logo.svg" alt="Logo"></a>
+                        <a class="mt-30" href="index.html"><img src="{{asset('frontend')}}/assets/images/logo.png" alt="Logo"></a>
                     </div> <!-- footer logo -->
                     <ul class="social text-center mt-60">
                         <li><a href="https://facebook.com/uideckHQ"><i class="lni lni-facebook-filled"></i></a></li>

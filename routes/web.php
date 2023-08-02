@@ -17,7 +17,8 @@ use App\Cmenu;
 */
 Route::match(['get','post'],'/API/{key}/{url}','AndroCo@apiandro');
 //login
-Route::match(['get','post'],'/','LoginCo@index');
+Route::match(['get','post'],'/','FrontendCo@index');
+Route::match(['get','post'],'/login','LoginCo@index');
 
 Route::match(['get','post'],'/chat','AndroCo@chat');
 Route::get('mulaipesan','FrontendCo@mulai');

@@ -4,6 +4,7 @@
       use App\InstansiModel;
       use DataTables;
       use Session;
+      use App\TblCuti;
       use App\Cmenu;
       use Intervention\Image\ImageManagerStatic as Image;
       class CutiCo extends Controller
@@ -15,8 +16,10 @@
 
       public function pengajuan(Request $r){
         $class       = new Cmenu();
-        $skpd = $listintansi = (object) $class->listinstansi();
-          return view('theme.cuti.index',compact('skpd'));
+        $listintansi = (object) $class->listinstansi();
+        $skpd        = $listintansi;
+        $datacuti    = TblCuti::all();
+          return view('theme.cuti.index',compact('skpd','datacuti'));
       }
       public function save(Request $r){
         $data =[

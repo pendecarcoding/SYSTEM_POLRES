@@ -280,7 +280,33 @@ use App\AbsenModel;
 
         </div>
       </div>-->
-      <a style="float:right;color:white" class="btn btn-primary"><i class="fa fa-print"></i> Cetak data</a>
+      <div id="cetak" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Cetak Laporan Absensi</h4>
+
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p>Tentukan tanggal Periode Cetak</p>
+
+              <div style="display: flex; flex-direction: row;">
+                <input type="date" name="from" class="form-control">
+                <p>s/d</p>
+                <input type="date" name="to" class="form-control">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Cetak</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+      <a data-toggle="modal" data-target="#cetak" style="float:right;color:white" class="btn btn-primary"><i class="fa fa-print"></i> Cetak data</a>
       <select id="jenisabsen" class="form-control" style="width:20%;float:right;margin-right:2px;" name="jenis">
         <option>--Jenis Absensi--</option>
         <option value="M">Masuk</option>
@@ -306,8 +332,6 @@ use App\AbsenModel;
             <th rowspan="2" style="text-align:center">Nama</th>
             <th rowspan="2" style="text-align:center">Pangkat/Gol</th>
             <th rowspan="2" style="text-align:center">Waktu Absen</th>
-            <th rowspan="2" style="text-align:center">kordinat</th>
-            <th rowspan="2" style="text-align:center">IP</th>
             <th colspan="8" style="text-align:center">Keterangan</th>
             
           </tr>
@@ -357,13 +381,6 @@ use App\AbsenModel;
                         name: 'waktu_absen'
                     },
                     {
-                        data: 'kordinat',
-                        name: 'kordinat'
-                    },
-                    {
-                        data: 'ip',
-                        name: 'ip'
-                    },{
                         data: 'H',
                         name: 'H'
                     },{

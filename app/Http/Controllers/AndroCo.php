@@ -635,7 +635,7 @@ public function getdatabyId(Request $r){
       'message'=>'1',
       'data'=>$data,
       'kantor'=>$lokasikantor,
-      'jam'=>($jam != null) ? $jam:$j=['jam'=>'--:--','batas'=>'--:--'],
+      'jam'=>($jam != null) ? $jam:$j=['jam'=>'10:00:12:00','batas'=>'10:00'],
       'bisaabsen'=>$checkabsen,
       'listabsen'=>$absen
     ]);

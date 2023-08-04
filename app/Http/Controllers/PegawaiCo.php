@@ -80,6 +80,7 @@ class PegawaiCo extends Controller
         'nama'=>$r->nama,
         'email'=>$r->email,
         'gd'=>$r->gd,
+        'pangkat_gol'=>$r->pangkat_gol,
         'gb'=>$r->gb,
         'nohp'=>$r->nohp,
       ];

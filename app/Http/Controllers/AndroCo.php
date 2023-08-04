@@ -259,7 +259,7 @@ public function login(Request $r){
       'message'=>'1',
       'data'=>$data,
       'kantor'=>$lokasikantor,
-      'jam'=>($jam != null) ? $jam:$j=['jam'=>'10:00','batas'=>'11:00'],
+      'jam'=>($jam != null) ? $jam:$j=['jam'=>$jam->jam,'batas'=>$jam->batas],
       'bisaabsen'=>$checkabsen,
       'listabsen'=>$absen
     ]);
@@ -635,7 +635,7 @@ public function getdatabyId(Request $r){
       'message'=>'1',
       'data'=>$data,
       'kantor'=>$lokasikantor,
-      'jam'=>($jam != null) ? $jam:$j=['jam'=>'10:00','batas'=>'12:00'],
+      'jam'=>($jam != null) ? $jam:$j=['jam'=>$jam->jam,'batas'=>$jam->batas],
       'bisaabsen'=>$checkabsen,
       'listabsen'=>$absen
     ]);

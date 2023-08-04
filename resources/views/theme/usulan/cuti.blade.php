@@ -22,7 +22,7 @@ $class = new Cmenu();
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-         <h4 class="card-title">Daftar Usulan Cuti Pegawai</h4>
+         <h4 class="card-title">Daftar Usulan Cuti Pegawai {{Session::get('kode_unitkerja')}}</h4>
         </div>
         <div class="card-body">
 

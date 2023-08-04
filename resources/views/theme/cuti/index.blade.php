@@ -22,11 +22,10 @@ $class = new Cmenu();
                     <div class="card-header">
                         <input id="tgl" style="width:20%;float:right;margin-right:2px;" type="date" name="tgl"
                             class="form-control" value="2023-08-01">
-                        <select id="jenisabsen" class="form-control" style="width:20%;float:right;margin-right:2px;"
+                        <select id="skpd" class="form-control" style="width:20%;float:right;margin-right:2px;"
                             name="jenis">
-                            <option>--Pilih SKPD--</option>
                             @foreach ($skpd as $i => $v)
-                                <option value="M">{{ $v->nama_unitkerja }}</option>
+                                <option value="{{$v->kode_unitkerja}}">{{ $v->nama_unitkerja }}</option>
                             @endforeach
                         </select>
                         <h4 class="card-title">Daftar Usulan Cuti Pegawai</h4>
@@ -39,7 +38,7 @@ $class = new Cmenu();
 
                         <br>
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered" id="sampleTable">
+                            <table class="table table-hover table-bordered" id="tableabsen">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -53,60 +52,7 @@ $class = new Cmenu();
                                     </tr>
                                 </thead>
 
-                                <tbody>
-                                    @foreach ($datacuti as $i => $v)
-                                        @php
-                                            $pegawai = $class->getpegawaifromiduser($v->id_pegawai);
-                                            $diterima = $v->status == 'Y' ? 'Disetujui' : 'Di batalkan';
-                                            $status = $v->status == 'A' ? 'Menunggu Konfirmasi..' : $diterima;
-                                        @endphp
-                                        @if ($pegawai != null)
-                                            <tr>
-                                                <td>{{ $i + 1 }}</td>
-                                                <td>{{ $pegawai->nama }}</td>
-                                                <td>{{ $v->jenis_cuti }}</td>
-                                                <td>{{ $v->rentang_absen }}</td>
-                                                <td>{{ $v->created_at }}</td>
-                                                <td>{{ $status }}</td>
-                                                <td><a><span style="color:white"
-                                                            class="me-1 badge bg-primary">{{ $v->file }}</span></a>
-                                                </td>
-                                                <td width="10%"><a data-toggle="modal"
-                                                        data-target="#view{{ $v->id }}"class="btn btn-primary btn-sm white"><i
-                                                            class="fa fa-file"></i></a></td>
-                                            </tr>
-                                            <div id="view{{ $v->id }}" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Ringkasan Pengajuan Cuti</h4>
-                                                            <button type="button" class="close"
-                                                                data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div style="display: flex;flex-direction:column">
-                                                                <p>Nama : {{ $pegawai->nama }}</p>
-                                                                <p>NIP : {{ $pegawai->nip }}</p>
-                                                                <p>Jenis Cuti : {{ $v->jenis_cuti }}</p>
-                                                                <p>Alasan : {{ $v->alasan }}</p>
-                                                                <p>Rentang Cuti : {{ $v->rentang_absen }}</p>
-                                                                <p>Tanggal Pengajuan : {{ $v->created_at }}</p>
-                                                                <p>Status Pengajuan : {{ $status }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-
-                                </tbody>
+                            </tbody>
                             </table>
                         </div>
                     </div>
@@ -116,101 +62,135 @@ $class = new Cmenu();
             </div>
         </div>
         </div>
-        <div class="modal fade" id="tambah" role="dialog">
-            <div class="modal-dialog modal-md">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Data Pegawai</h4>
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-                    </div>
-
-                    <div class="modal-body">
-                        <form action="{{ url('addpegawai') }}" method="post" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                                <label>Foto</label>
-                                <br>
-                                <center>
-                                    <image id="preview" src="{{ asset('noimage.png') }}"
-                                        style="width:200px;height:220px;">
-                                </center>
-                                <br>
-                                <br>
-                                <input type="hidden" name="logold" value="">
-                                <input type="file" name="file" id="file"
-                                    onchange="tampilkanPreview(this,'preview')">
-                                <script>
-                                    function tampilkanPreview(gambar, idpreview) {
-                                        //membuat objek gambar
-                                        var gb = gambar.files;
-                                        //loop untuk merender gambar
-                                        for (var i = 0; i < gb.length; i++) {
-                                            //bikin variabel
-                                            var gbPreview = gb[i];
-                                            var imageType = /image.*/;
-                                            var preview = document.getElementById(idpreview);
-                                            var reader = new FileReader();
-                                            if (gbPreview.type.match(imageType)) {
-                                                //jika tipe data sesuai
-                                                preview.file = gbPreview;
-                                                reader.onload = (function(element) {
-                                                    return function(e) {
-                                                        element.src = e.target.result;
-                                                    };
-                                                })(preview);
-                                                //membaca data URL gambar
-                                                reader.readAsDataURL(gbPreview);
-                                            } else {
-                                                //jika tipe data tidak sesuai
-                                                alert("Type file tidak sesuai. Khusus image.");
-                                                document.getElementById("file").value = "";
-                                            }
-                                        }
-                                    }
-                                </script>
-                                <br>
-                            </div>
-
-                            <div class="form-group">
-                                <label>NIP</label>
-                                <input type="text" class="form-control" name="nip" value="">
-                            </div>
-                            <div class="form-group">
-                                <label>Nama</label>
-                                <input type="text" class="form-control" name="nama" value="">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Gelar Depan</label>
-                                <input type="text" class="form-control" name="gd" value="">
-                            </div>
-                            <div class="form-group">
-                                <label>Gelar Belakang</label>
-                                <input type="text" class="form-control" name="gb" value="">
-                            </div>
-                            <div class="form-group">
-                                <label>NO HP</label>
-                                <input type="text" class="form-control" name="nohp" value="">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" class="form-control" name="email" value="">
-                            </div>
-
-                            <ul class="list-group">
-                                <button class="btn btn-primary" type="submit">Simpan</button>
-                            </ul>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
 
     </main>
     <!-- ============================================================== -->
     <!-- End Container fluid  -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+ $(document).ready(function () {
+    var tgl   = document.getElementById('tgl').value;
+    var skpd  = document.getElementById('skpd').value;
+      $('#tableabsen').DataTable({
+          processing: true,
+          retrieve: true,
+          serverSide: true,
+          ajax: "{{ url('apiusulancuti') }}?skpd="+skpd+"&tanggal="+tgl,
+          columns: [{ // mengambil & menampilkan kolom sesuai tabel database
+                        data: 'no',
+                        name: 'no'
+                    },
+                    {
+                        data: 'nama_pegawai',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'jenis_cuti',
+                        name: 'jeniscuti'
+                    },
+                    {
+                        data: 'lama_cuti',
+                        name: 'lamacuti'
+                    },
+                    {
+                        data: 'tgl_pengajuan',
+                        name: 'tglpengajuan'
+                    },{
+                        data: 'status',
+                        name: 'status'
+                    },{
+                        data: 'file',
+                        name: 'file'
+                    },{
+                        data: 'aksi',
+                        name: 'aksi'
+                    }
+                ]
+      });
+  });
+  $('#tgl').change(function(){
+    var skpd = document.getElementById('skpd').value;
+    var tgl   = $(this).val();
+    var table = document.getElementById('tableabsen');
+		$('#tableabsen').DataTable({
+          destroy: true,
+          processing: true,
+          serverSide: true,
+          ajax: "{{ url('apiusulancuti') }}?skpd="+skpd+"&tanggal="+tgl,
+          columns: [{ // mengambil & menampilkan kolom sesuai tabel database
+                        data: 'no',
+                        name: 'no'
+                    },
+                    {
+                        data: 'nama_pegawai',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'jenis_cuti',
+                        name: 'jeniscuti'
+                    },
+                    {
+                        data: 'lama_cuti',
+                        name: 'lamacuti'
+                    },
+                    {
+                        data: 'tgl_pengajuan',
+                        name: 'tglpengajuan'
+                    },{
+                        data: 'status',
+                        name: 'status'
+                    },{
+                        data: 'file',
+                        name: 'file'
+                    },{
+                        data: 'aksi',
+                        name: 'aksi'
+                    }
+                ]
+      });
+  });
+
+  $('#skpd').change(function(){
+    var skpd = document.getElementById('skpd').value;
+    var tgl   = document.getElementById('tgl').value;
+    var table = document.getElementById('tableabsen');
+		$('#tableabsen').DataTable({
+          destroy: true,
+          processing: true,
+          serverSide: true,
+          ajax: "{{ url('apiusulancuti') }}?skpd="+skpd+"&tanggal="+tgl,
+          columns: [{ // mengambil & menampilkan kolom sesuai tabel database
+                        data: 'no',
+                        name: 'no'
+                    },
+                    {
+                        data: 'nama_pegawai',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'jenis_cuti',
+                        name: 'jeniscuti'
+                    },
+                    {
+                        data: 'lama_cuti',
+                        name: 'lamacuti'
+                    },
+                    {
+                        data: 'tgl_pengajuan',
+                        name: 'tglpengajuan'
+                    },{
+                        data: 'status',
+                        name: 'status'
+                    },{
+                        data: 'file',
+                        name: 'file'
+                    },{
+                        data: 'aksi',
+                        name: 'aksi'
+                    }
+                ]
+      });
+  });
+  </script>
 @endsection

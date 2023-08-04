@@ -54,10 +54,10 @@ class Cmenu
    $data = InstansiModel::where('jenis','K')->where('status','A')->get();
    return $data;
   }
-  function datamarker(){
+  function datamarker($ku){
   $datamarker = KordinatModel::where('latitude','!=','')
                 ->where('longitude','!=','')
-                ->where('kode_unitkerja',Session::get('kode_unitkerja'))
+                ->where('kode_unitkerja',$ku)
                 ->first();
    return $datamarker;
   }
@@ -155,7 +155,29 @@ class Cmenu
     return $d;
 
   }
-
+  function tgl_indos($tanggal){
+    $bulan = array (
+      1 =>   'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember'
+    );
+    $pecahkan = explode('-', $tanggal);
+    
+    // variabel pecahkan 0 = tanggal
+    // variabel pecahkan 1 = bulan
+    // variabel pecahkan 2 = tahun
+   
+    return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+  }
   function gethari($tanggal){
     $namahari = date('l', strtotime($tanggal));
     $daftar_hari = array(

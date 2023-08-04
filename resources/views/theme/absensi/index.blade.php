@@ -11,7 +11,7 @@ use App\AbsenModel;
  $class = new Cmenu();
 
  $data_a = AbsenModel::where('id_absen',$_GET['view'])->first();
- $kantor = (object)$class->datamarker();
+ $kantor = (object)$class->datamarker($data_a->kode_unitkerja);
  $pegawai = $class->getpegawaifromiduser($data_a->id_pegawai);
  @endphp
  <main class="app-content">
@@ -70,7 +70,7 @@ use App\AbsenModel;
   <div class="card">
     <div class="card-header">
      
-      <a href="{{ url('dataabsensi') }}"style="float:right;color:white" class="btn btn-danger"><i class="fa fa-times"></i></a>
+      <a href="#" onclick="goBack()" style="float:right;color:white" class="btn btn-danger"><i class="fa fa-times"></i></a>
      
       <h4 class="card-title"><i class="fa fa-person"></i>Lokasi Absensi</h4>
 
@@ -138,7 +138,11 @@ use App\AbsenModel;
 
 
 </main>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 
  @else
 <main class="app-content">
@@ -290,18 +294,19 @@ use App\AbsenModel;
 
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+            <form action="{{url('cetakabsensi')}}" method="post">
             <div class="modal-body">
               <p>Tentukan tanggal Periode Cetak</p>
-
               <div style="display: flex; flex-direction: row;">
-                <input type="date" name="from" class="form-control">
+                <input type="date" name="from" class="form-control" required>
                 <p>s/d</p>
-                <input type="date" name="to" class="form-control">
+                <input type="date" name="to" class="form-control" required>
               </div>
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Cetak</button>
             </div>
+            </form>
           </div>
       
         </div>
@@ -356,14 +361,18 @@ use App\AbsenModel;
 
 
 </main>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-  $(document).ready(function () {
+ $(document).ready(function () {
+    var jenis = document.getElementById('jenisabsen').value;
+    var tgl   = document.getElementById('tgl').value;
+    var skpd = {{Session::get('kode_unitkerja')}};
       $('#tableabsen').DataTable({
           processing: true,
           retrieve: true,
           serverSide: true,
-          ajax: "{{ url('apiabsen') }}",
+          ajax: "{{ url('apiabsen') }}?skpd="+skpd+"&tanggalabsen="+tgl+"&jenisabsen="+jenis,
           columns: [{ // mengambil & menampilkan kolom sesuai tabel database
                         data: 'no',
                         name: 'no'
@@ -413,7 +422,7 @@ use App\AbsenModel;
           destroy: true,
           processing: true,
           serverSide: true,
-          ajax: "https://absensi.bengkaliskab.go.id/getdataabsenfromjenis?jenisabsen="+jenis+"&tanggalabsen="+tgl,
+          ajax: "{{url('getdataabsenfromjenis')}}?jenisabsen="+jenis+"&tanggalabsen="+tgl,
           columns: [{ // mengambil & menampilkan kolom sesuai tabel database
                         data: 'no',
                         name: 'no'
@@ -431,13 +440,6 @@ use App\AbsenModel;
                         name: 'waktu_absen'
                     },
                     {
-                        data: 'kordinat',
-                        name: 'kordinat'
-                    },
-                    {
-                        data: 'ip',
-                        name: 'ip'
-                    },{
                         data: 'H',
                         name: 'H'
                     },{
@@ -471,7 +473,7 @@ use App\AbsenModel;
           destroy: true,
           processing: true,
           serverSide: true,
-          ajax: "https://absensi.bengkaliskab.go.id/getdataabsenfromjenis?jenisabsen="+jenis+"&tanggalabsen="+tgl,
+          ajax: "{{url('getdataabsenfromjenis')}}?jenisabsen="+jenis+"&tanggalabsen="+tgl,
           columns: [{ // mengambil & menampilkan kolom sesuai tabel database
                         data: 'no',
                         name: 'no'
@@ -489,13 +491,6 @@ use App\AbsenModel;
                         name: 'waktu_absen'
                     },
                     {
-                        data: 'kordinat',
-                        name: 'kordinat'
-                    },
-                    {
-                        data: 'ip',
-                        name: 'ip'
-                    },{
                         data: 'H',
                         name: 'H'
                     },{

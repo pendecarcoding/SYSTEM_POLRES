@@ -16,6 +16,7 @@ use App\Cmenu;
 use DateTime;
 use DatePeriod;
 use DateInterval;
+use PDF;
 use Intervention\Image\ImageManagerStatic as Image;
 class AbsensiCo extends Controller
 {
@@ -38,6 +39,48 @@ public function index(){
   $ki       = substr(Session::get('kode_unitkerja'),0,8);
   $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
   return view($this->index,compact('pg'));
+}
+
+public function cetakabsensi(Request $r){
+  $class = new Cmenu();
+  if(Session::get('level')=='user'){
+    $dataabsen    = array();
+    $ki       = substr(Session::get('kode_unitkerja'),0,8);
+    $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+    $start    = $r->from;
+    $end      = $r->to;
+    $implodedate = [$start, $end];
+    foreach($pg as $i => $v){
+      $H       = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->whereBetween('tglabsen', $implodedate)->where('status','H')->count();
+      $D       = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->whereBetween('tglabsen', $implodedate)->where('status','D')->count();
+      $C       = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->whereBetween('tglabsen', $implodedate)->where('status','C')->count();
+      $S       = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->whereBetween('tglabsen', $implodedate)->where('status','S')->count();
+      $A       = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->whereBetween('tglabsen', $implodedate)->where('status','A')->count();
+      $P       = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->whereBetween('tglabsen', $implodedate)->where('status','P')->count();
+      $data =[
+        'no'=>$i+1,
+        'nama_pegawai'=>((empty($v->gd) OR $v->gd == '-') ? '':$v->gd).''.$v->nama.' '.$v->gb,
+        'nip'=>$v->nip,
+        'pangkat'=>$v->pangkat_gol,
+        'H'=>($H > 0 ) ? ($H/2):"-",
+        'D'=>($D > 0 ) ? ($D/2):"-",
+        'C'=>($C > 0 ) ? ($C/2):"-",
+        'S'=>($S > 0 ) ? ($C/2):"-",
+        'A'=>($A > 0 ) ? ($A/2):"-",
+        'P'=>($P > 0 ) ? ($P/2):"-",
+      ];
+      array_push($dataabsen,$data);
+    }
+    $date = $class->tgl_indos($start).' - '.$class->tgl_indos($end);
+    $instansi = $class->namainstansi(Session::get('kode_unitkerja'));
+    // return view('theme.laporan.absensi',compact('dataabsen','instansi','date'));
+    $pdf = PDF::loadview('theme.laporan.absensi',compact('dataabsen','instansi','date'));
+	  return $pdf->stream();
+  }else if(Session::get('level')=='BKPP'){
+    print "BKPP";
+  }else{
+    print "NOTFOUND";
+  }
 }
 public function laporan(){
   $class       = new Cmenu();
@@ -63,6 +106,18 @@ public function save(Request $r){
         return back()->with('success',$this->msukses);
    }
 
+}
+
+public function updateabsensi(Request $r){
+  try {
+    $data=[
+      'status'=>$r->aksi
+    ];
+    AbsenModel::where('id_absen',$r->id)->update($data);
+    return back();
+  } catch (\Throwable $th) {
+    //throw $th;
+  }
 }
 public function ajukanizin(Request $r){
   $pg        = $r->pg;
@@ -142,13 +197,17 @@ public function hapus($id=null){
 }
 
 
-public function apiabsen(){
-  /*$class    = new Cmenu();
-  
-  $data     = $class->getpegawaiinstansi($ki);*/
+public function apiabsen(Request $r){
+  if(Session::get('level')=='BKPP'){
+    $ki       = substr($r->skpd,0,8);
+    $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+    $viewabsen= 'laporanabsensi';
+  }else{
+    $ki       = substr(Session::get('kode_unitkerja'),0,8);
+    $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+    $viewabsen= 'dataabsensi';
+  }
   $array    = array();
-  $ki       = substr(Session::get('kode_unitkerja'),0,8);
-  $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
   foreach($pg as $i => $v){
     $absensi = AbsenModel::where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->where('tglabsen',date('Y-m-d'))->first();
     $data =[
@@ -156,15 +215,13 @@ public function apiabsen(){
       'nama_pegawai'=>((empty($v->gd) OR $v->gd == '-') ? '':$v->gd).''.$v->nama.' '.$v->gb,
       'pangkat'=>'',
       'waktu_absen'=>(!empty($absensi->tglabsen)) ? $absensi->tglabsen:"Belum Absen",
-      'kordinat'=>(!empty($absensi->latitude)) ? $absensi->latitude.','.$absensi->longitude:"-",
-      'ip'=>(!empty($absensi->ip)) ? $absensi->ip:"-",
       'H'=>(!empty($absensi->status)) ? ($absensi->status=='H') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'D'=>(!empty($absensi->status)) ? ($absensi->status=='D') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'C'=>(!empty($absensi->status)) ? ($absensi->status=='C') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'S'=>(!empty($absensi->status)) ? ($absensi->status=='S') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'A'=>(!empty($absensi->status)) ? ($absensi->status=='A') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'P'=>(!empty($absensi->status)) ? ($absensi->status=='P') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
-      'aksi'=>(!empty($absensi->status)) ? '<a href="'.url('dataabsensi?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>':'<img style="width:30px" src="'.asset('load.gif').'">',
+      'aksi'=>(!empty($absensi->status)) ? '<a href="'.url($viewabsen.'?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>':'<img style="width:30px" src="'.asset('load.gif').'">',
     ];
     array_push($array,$data);
   }
@@ -179,12 +236,16 @@ public function apiabsen(){
 }
 
 public function getdataabsenfromjenis(Request $r){
-      /*$class    = new Cmenu();
-  
-  $data     = $class->getpegawaiinstansi($ki);*/
   $array    = array();
-  $ki       = substr(Session::get('kode_unitkerja'),0,8);
-  $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+  if(Session::get('level')=='BKPP'){
+    $ki       = substr($r->skpd,0,8);
+    $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+    $viewabsen= 'laporanabsensi';
+  }else{
+    $ki       = substr(Session::get('kode_unitkerja'),0,8);
+    $pg       = PegawaiModel::where('kode_unitkerja','LIKE','%'.$ki.'%')->get();
+    $viewabsen= 'dataabsensi';
+  }
   foreach($pg as $i => $v){
     $absensi = AbsenModel::where('jenis',$r->jenisabsen)->where('tbl_user.id_pegawai',$v->id)->join('tbl_user','tbl_user.id_user','tbl_absen.id_pegawai')->where('tglabsen',$r->tanggalabsen)->first();
     $data =[
@@ -192,15 +253,13 @@ public function getdataabsenfromjenis(Request $r){
       'nama_pegawai'=>((empty($v->gd) OR $v->gd == '-') ? '':$v->gd).''.$v->nama.' '.$v->gb,
       'pangkat'=>'',
       'waktu_absen'=>(!empty($absensi->tglabsen)) ? $absensi->tglabsen:"Belum Absen",
-      'kordinat'=>(!empty($absensi->latitude)) ? $absensi->latitude.','.$absensi->longitude:"-",
-      'ip'=>(!empty($absensi->ip)) ? $absensi->ip:"-",
       'H'=>(!empty($absensi->status)) ? ($absensi->status=='H') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'D'=>(!empty($absensi->status)) ? ($absensi->status=='D') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'C'=>(!empty($absensi->status)) ? ($absensi->status=='C') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'S'=>(!empty($absensi->status)) ? ($absensi->status=='S') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'A'=>(!empty($absensi->status)) ? ($absensi->status=='A') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'P'=>(!empty($absensi->status)) ? ($absensi->status=='P') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
-      'aksi'=>(!empty($absensi->status)) ? '<a href="'.url('dataabsensi?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>':'<img style="width:30px" src="'.asset('load.gif').'">',
+      'aksi'=>(!empty($absensi->status)) ? '<a href="'.url($viewabsen.'?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>':'<img style="width:30px" src="'.asset('load.gif').'">',
     
     ];
     array_push($array,$data);

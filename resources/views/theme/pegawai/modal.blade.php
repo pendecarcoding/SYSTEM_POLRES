@@ -77,6 +77,10 @@
               <input type="text" class="form-control" name="gb" value="{{ $v->gb }}">
             </div>
             <div class="form-group">
+              <label>Pangkat/Gol</label>
+              <input type="text" class="form-control" name="pangkat_gol" value="{{ $v->pangkat_gol }}">
+            </div>
+            <div class="form-group">
               <label>NO HP</label>
               <input type="text" class="form-control" name="nohp" value="{{ $v->nohp }}">
             </div>

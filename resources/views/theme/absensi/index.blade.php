@@ -157,7 +157,7 @@ use App\AbsenModel;
     </ul>
   </div>
  
-
+@include('theme.Layouts.alert')
 <div class="row">
 <div class="col-12">
   <div class="card">
@@ -297,7 +297,7 @@ use App\AbsenModel;
             <form action="{{url('cetakabsensi')}}" method="post">
             <div class="modal-body">
               <p>Tentukan tanggal Periode Cetak</p>
-              <div style="display: flex; flex-direction: row;">
+              <div style="display: flex; flex-direction: row;gap: 20px;">
                 <input type="date" name="from" class="form-control" required>
                 <p>s/d</p>
                 <input type="date" name="to" class="form-control" required>
@@ -362,8 +362,35 @@ use App\AbsenModel;
 
 </main>
 
+<script>
+  function reset(id) {
+
+    swal({
+        title: "Anda yakin mereset absensi ini ??",
+        text: "Status absensi akan tereset dan data yang di rekam sebelumnya akan hilang. penting untuk melakukan aksi selanjutnya agar tidak menjadi status tanpa keterangan / Alpha",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ya, Reset!",
+        closeOnConfirm: false
+      },
+      function () {
+        swal("Aksi reset dilakukan!", "", "success")
+        window.location = '{{ url("resetabsensi") }}/' + id;
+
+      }
+
+
+
+    );
+
+    }
+    </script>
+ 
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+
  $(document).ready(function () {
     var jenis = document.getElementById('jenisabsen').value;
     var tgl   = document.getElementById('tgl').value;

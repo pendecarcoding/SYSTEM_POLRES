@@ -12,6 +12,7 @@ use App\aksesmenuModel;
 use App\KordinatModel;
 use App\AbsenModel;
 use App\PegawaiModel;
+use App\UserModel;
 use App\Cmenu;
 use DateTime;
 use DatePeriod;
@@ -184,6 +185,67 @@ public function update(Request $r){
      return back()->with('success',$this->msukses);
    }
 }
+public function resetabsensi($id=null){
+  try {
+     AbsenModel::where('id_absen',$id)->delete();
+     return back()->with('success','Data berhasil direset');
+  } catch (\Throwable $th) {
+    return back()->with('danger',$th->getmessage());
+  }
+}
+public function absenmanual(Request $r){
+   $checkuser = UserModel::where('id_pegawai',$r->id)->count();
+   if($checkuser > 0){
+    $user = UserModel::where('id_pegawai',$r->id)->first();
+    $keterangan = ($r->status=='A')?'Tanpa Keterangan':'Hadir';
+    $keterangan = ($r->status=='C')?'Cuti':$keterangan;
+    $keterangan = ($r->status=='S')?'Sakit':$keterangan;
+    $keterangan = ($r->status=='P')?'Pendidikan':$keterangan;
+    $keterangan = ($r->status=='D')?'Dinas':$keterangan;
+    $ip = $this->get_client_ip();
+    $data=[
+      'id_absen'=>uniqid(),
+      'id_pegawai'=>$user->id_user,
+      'kode_unitkerja'=>$user->kode_unitkerja,
+      'status'=>$r->status,
+      'keterangan'=>$keterangan,
+      'jenis'=>$r->jenis,
+      'latitude'=>'',
+      'longitude'=>'',
+      'swafoto'=>'absenmanual.png',
+      'ip'=>$ip,
+      'tglabsen'=>date('Y-m-d'),
+      'tglabsen'=>date('Y-m-d'),
+    ];
+    try {
+      AbsenModel::insert($data);
+      return back()->with('success','Data berhasil diupdate');
+    } catch (\Throwable $th) {
+      return back()->with('danger',$th->getmessage());
+    }
+   }else{
+    return back()->with('danger','Pegawai bersangkutan belum mempunyai akun harap buat terlebih dahulu akun nya');
+   }
+}
+
+function get_client_ip() {
+  $ipaddress = '';
+  if (getenv('HTTP_CLIENT_IP'))
+      $ipaddress = getenv('HTTP_CLIENT_IP');
+  else if(getenv('HTTP_X_FORWARDED_FOR'))
+      $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+  else if(getenv('HTTP_X_FORWARDED'))
+      $ipaddress = getenv('HTTP_X_FORWARDED');
+  else if(getenv('HTTP_FORWARDED_FOR'))
+      $ipaddress = getenv('HTTP_FORWARDED_FOR');
+  else if(getenv('HTTP_FORWARDED'))
+     $ipaddress = getenv('HTTP_FORWARDED');
+  else if(getenv('REMOTE_ADDR'))
+      $ipaddress = getenv('REMOTE_ADDR');
+  else
+      $ipaddress = 'UNKNOWN';
+  return $ipaddress;
+}
 
 public function hapus($id=null){
   $check = galerymodel::where('id_galery',base64_decode($id))->count();
@@ -213,7 +275,7 @@ public function apiabsen(Request $r){
     $data =[
       'no'=>$i+1,
       'nama_pegawai'=>((empty($v->gd) OR $v->gd == '-') ? '':$v->gd).''.$v->nama.' '.$v->gb,
-      'pangkat'=>'',
+      'pangkat'=>$v->pangkat_gol,
       'waktu_absen'=>(!empty($absensi->tglabsen)) ? $absensi->tglabsen:"Belum Absen",
       'H'=>(!empty($absensi->status)) ? ($absensi->status=='H') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'D'=>(!empty($absensi->status)) ? ($absensi->status=='D') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
@@ -221,7 +283,45 @@ public function apiabsen(Request $r){
       'S'=>(!empty($absensi->status)) ? ($absensi->status=='S') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'A'=>(!empty($absensi->status)) ? ($absensi->status=='A') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'P'=>(!empty($absensi->status)) ? ($absensi->status=='P') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
-      'aksi'=>(!empty($absensi->status)) ? '<a href="'.url($viewabsen.'?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>':'<img style="width:30px" src="'.asset('load.gif').'">',
+      // 'aksi'=>(!empty($absensi->status)) ? '<a href="'.url($viewabsen.'?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>':'<img style="width:30px" src="'.asset('load.gif').'"> <a style="color:white" class="btn btn-primary btn-sm">Manual</a>',
+      'aksi'=> (!empty($absensi->status)) ? '<a href="'.url($viewabsen.'?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>
+      <a onclick="reset(\'' . htmlspecialchars($absensi->id_absen, ENT_QUOTES) . '\')" class="btn btn-warning btn-sm"><i class="fa fa-undo"></i></a>':'<a data-toggle="modal" data-target="#absen'.$v->id.'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-sign-in" aria-hidden="true"></i> Manual</a>
+      <div id="absen'.$v->id.'" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+          <h4 class="modal-title">Absensi Secara Manual</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <form action="'.url('manualabsen').'" method="POST">
+          <input type="hidden" value="'.$v->id.'" name="id" required>
+          <div class="modal-body">
+            <p>Perhatian. Fitur ini hanya digunakan apabila terjadi kendala saat melakukan proses absensi menggunakan Aplikasi atau ada kemungkinan hal yang tidak bisa di lakukan menggunakan Aplikasi Mobile</p>
+            <label>Status Absensi yang diberikan kepada <span style="font-weight:bold">'.((empty($v->gd) OR $v->gd == '-') ? '':$v->gd).''.$v->nama.' '.$v->gb.'</span> :</label>
+            <select class="form-control" name="status" required>
+              <option value="H">Hadir</option>
+              <option value="S">Sakit</option>
+              <option value="D">Dinas</option>
+              <option value="C">Cuti</option>
+              <option value="P">Pendidikan</option>
+              <option value="A">Tanpa Keterangan</option>
+            </select>
+            <label>Jenis Absensi</label>
+            <select class="form-control" name="jenis" required>
+              <option value="M">Absen Masuk</option>
+              <option value="P">Absen Pulang</option>
+            </select>
+            </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update</button>
+          </div>
+          </form>
+        </div>
+    
+      </div>
+    </div>',
     ];
     array_push($array,$data);
   }
@@ -251,7 +351,7 @@ public function getdataabsenfromjenis(Request $r){
     $data =[
       'no'=>$i+1,
       'nama_pegawai'=>((empty($v->gd) OR $v->gd == '-') ? '':$v->gd).''.$v->nama.' '.$v->gb,
-      'pangkat'=>'',
+      'pangkat'=>$v->pangkat_gol,
       'waktu_absen'=>(!empty($absensi->tglabsen)) ? $absensi->tglabsen:"Belum Absen",
       'H'=>(!empty($absensi->status)) ? ($absensi->status=='H') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'D'=>(!empty($absensi->status)) ? ($absensi->status=='D') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
@@ -259,8 +359,44 @@ public function getdataabsenfromjenis(Request $r){
       'S'=>(!empty($absensi->status)) ? ($absensi->status=='S') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'A'=>(!empty($absensi->status)) ? ($absensi->status=='A') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
       'P'=>(!empty($absensi->status)) ? ($absensi->status=='P') ? '<i style="color:green" class="fa fa-check"></i>':"-" :"-",
-      'aksi'=>(!empty($absensi->status)) ? '<a href="'.url($viewabsen.'?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>':'<img style="width:30px" src="'.asset('load.gif').'">',
+      'aksi'=> (!empty($absensi->status)) ? '<a href="'.url($viewabsen.'?view='.$absensi->id_absen).'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-image"></i></a>
+      <a onclick="reset(\'' . htmlspecialchars($absensi->id_absen, ENT_QUOTES) . '\')" class="btn btn-warning btn-sm"><i class="fa fa-undo"></i></a>':'<a data-toggle="modal" data-target="#absen'.$v->id.'" style="color:white" class="btn btn-primary btn-sm"><i class="fa fa-sign-in" aria-hidden="true"></i> Manual</a>
+      <div id="absen'.$v->id.'" class="modal fade" role="dialog">
+      <div class="modal-dialog">
     
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+          <h4 class="modal-title">Absensi Secara Manual</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <form action="'.url('manualabsen').'" method="POST">
+          <input type="hidden" value="'.$v->id.'" name="id" required>
+          <div class="modal-body">
+            <p>Perhatian. Fitur ini hanya digunakan apabila terjadi kendala saat melakukan proses absensi menggunakan Aplikasi atau ada kemungkinan hal yang tidak bisa di lakukan menggunakan Aplikasi Mobile</p>
+            <label>Status Absensi yang diberikan kepada <span style="font-weight:bold">'.((empty($v->gd) OR $v->gd == '-') ? '':$v->gd).''.$v->nama.' '.$v->gb.'</span> :</label>
+            <select class="form-control" name="status" required>
+              <option value="H">Hadir</option>
+              <option value="S">Sakit</option>
+              <option value="D">Dinas</option>
+              <option value="C">Cuti</option>
+              <option value="P">Pendidikan</option>
+              <option value="A">Tanpa Keterangan</option>
+            </select>
+            <label>Jenis Absensi</label>
+            <select class="form-control" name="jenis" required>
+              <option value="M">Absen Masuk</option>
+              <option value="P">Absen Pulang</option>
+            </select>
+            </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update</button>
+          </div>
+          </form>
+        </div>
+    
+      </div>
+    </div>',
     ];
     array_push($array,$data);
   }

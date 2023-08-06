@@ -9,6 +9,7 @@ class PegawaiModel extends Model
     'nip',
     'nama',
     'email',
+    'pangkat_gol',
     'gd',
     'gb',
     'nohp',
@@ -17,4 +18,5 @@ class PegawaiModel extends Model
     'kode_unitkerja'
 ];
   
+
 }

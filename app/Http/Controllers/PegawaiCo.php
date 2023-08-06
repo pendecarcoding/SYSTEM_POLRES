@@ -34,6 +34,7 @@ class PegawaiCo extends Controller
       'gd'=>$r->gd,
       'gb'=>$r->gb,
       'nohp'=>$r->nohp,
+      'pangkat_gol'=>$r->pangkat_gol,
       'image'=>$titleimg,
       'satatus'=>'ASN',
       'kode_unitkerja'=>Session::get('kode_unitkerja'),
@@ -63,6 +64,7 @@ class PegawaiCo extends Controller
       'gd'=>$r->gd,
       'gb'=>$r->gb,
       'nohp'=>$r->nohp,
+      'pangkat_gol'=>$r->pangkat_gol,
       'image'=>$titleimg,
       'status'=>'ASN',
       'kode_unitkerja'=>Session::get('kode_unitkerja'),
@@ -78,6 +80,7 @@ class PegawaiCo extends Controller
         'nama'=>$r->nama,
         'email'=>$r->email,
         'gd'=>$r->gd,
+        'pangkat_gol'=>$r->pangkat_gol,
         'gb'=>$r->gb,
         'nohp'=>$r->nohp,
       ];

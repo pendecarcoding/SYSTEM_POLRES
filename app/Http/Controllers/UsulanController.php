@@ -5,6 +5,7 @@ use App\InstansiModel;
 use DataTables;
 use Session;
 use App\Cmenu;
+use App\TblCuti;
 use App\PegawaiModel;
 use App\UsulanModel;
 class UsulanController extends Controller
@@ -15,24 +16,12 @@ class UsulanController extends Controller
 
 
 }
- public function usulandinas(){
-  if(Session::get('level')=='user'){
-    $data = UsulanModel::where('kode_unitkerja',Session::get('kode_unitkerja'))->get();
-    return view($this->main.'.dinas',compact('data'));
-  }else{
-    $data = UsulanModel::where('kode_unitkerja')->get();
-    return view($this->main.'.dinas',compact('data'));
-  }
-   
- }
-
- public function usulansakit(){
+ public function usulancuti(){
     if(Session::get('level')=='user'){
-      $data = UsulanModel::where('kode_unitkerja',Session::get('kode_unitkerja'))->get();
-      return view($this->main.'.sakit',compact('data'));
+      $data = TblCuti::where('id_instansi',Session::get('kode_unitkerja'))->get();
+      return view($this->main.'.cuti',compact('data'));
     }else{
-      $data = UsulanModel::where('kode_unitkerja')->get();
-      return view($this->main.'.sakit',compact('data'));
+     
     }
      
    }

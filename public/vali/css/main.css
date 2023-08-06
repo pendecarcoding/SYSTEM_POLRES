@@ -91,6 +91,10 @@ body {
   outline: 0 !important;
 }
 
+.white{
+  color:white;
+}
+
 hr {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;

@@ -53,7 +53,7 @@
                     </td>
                     <td>@if($v->gd=='-') @else {{ $v->gd }}
                       @endif{{ $v->nama.','.$v->gb }}<br>{{ $v->nip }}</td>
-                    <td></td>
+                    <td>{{$v->pangkat_gol}}</td>
                     <td>{{ $v->nohp }}</td>
                     <td>{{ $v->email }}</td>
                     <td>
@@ -173,6 +173,10 @@
             <div class="form-group">
               <label>Gelar Belakang</label>
               <input type="text" class="form-control" name="gb" value="">
+            </div>
+            <div class="form-group">
+              <label>Pangkat/Gol</label>
+              <input type="text" class="form-control" name="pangkat_gol" value="">
             </div>
             <div class="form-group">
               <label>NO HP</label>

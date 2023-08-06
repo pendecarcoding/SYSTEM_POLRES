@@ -1,18 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\InstansiModel;
-use DataTables;
 use Session;
-use App\menu;
 use App\Cmenu;
-use App\Level;
 use App\Loginmodel;
-use App\Pegawaimodel;
+use App\PegawaiModel;
 use App\Bidang;
-use App\aksesmenuModel;
 use App\Http\Requests\AkunRequest;
-use Validator;
 class userCo extends Controller
 {
   public function __construct()

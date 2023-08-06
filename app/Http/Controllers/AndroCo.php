@@ -619,7 +619,7 @@ public function getdatabyId(Request $r){
     $dayTerm = ($hour > 17) ? "Evening" : (($hour > 12) ? "Afternoon" : "Morning");
     if($dayTerm=='Morning'){
     $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Masuk')->first();
-    $checkabsen = AbsenModel::where('id_pegawai','71')->where('kode_unitkerja',$data->kode_unitkerja)->where('tglabsen',date('Y-m-d'))->where('jenis','M')->count();
+    $checkabsen = AbsenModel::where('id_pegawai','71')->where('kode_unitkerja','1603063001')->where('tglabsen',date('Y-m-d'))->where('jenis','M')->count();
     $checkabsen = ($checkabsen > 0) ? "no":"yes";
   }else if($dayTerm=='Afternoon'){
     $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Pulang')->first();

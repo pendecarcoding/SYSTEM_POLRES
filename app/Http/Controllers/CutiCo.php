@@ -6,6 +6,8 @@
       use Session;
       use App\TblCuti;
       use App\Cmenu;
+      use App\AbsenModel;
+      use App\UserModel;
       use Intervention\Image\ImageManagerStatic as Image;
       class CutiCo extends Controller
       {
@@ -20,8 +22,56 @@
             $data = [
               'status'=>$r->aksi
             ];
-            TblCuti::where('id',$r->id)->update($data);
-            return back();
+            if($r->aksi=='Y'){
+              $cuti          = TblCuti::where('id',$r->id)->first();
+              $user          = UserModel::where('id_pegawai',$cuti->id_pegawai)->first();
+              $date_parts    = explode(" s/d ", $cuti->rentang_absen);
+              $tanggal_awal  = $date_parts[0];
+              $tanggal_akhir = $date_parts[1];
+              // Convert tanggal_awal and tanggal_akhir to timestamps
+              $tanggal_awal_timestamp = strtotime($tanggal_awal);
+              $tanggal_akhir_timestamp = strtotime($tanggal_akhir);
+              for ($timestamp = $tanggal_awal_timestamp; $timestamp <= $tanggal_akhir_timestamp; $timestamp += 86400) {
+                $tanggal = date('Y-m-d', $timestamp);
+                $absen=[
+                  'id_absen'=>uniqid(),
+                  'id_pegawai'=>$user->id_user,
+                  'status'=>'C',
+                  'keterangan'=>$cuti->alasan,
+                  'jenis'=>'M',
+                  'kode_unitkerja'=>$cuti->id_instansi,
+                  'no_surat'=>null,
+                  'latitude'=>'-',
+                  'longitude'=>'-',
+                  'swafoto'=>'cuti.png',
+                  'ip'=>'',
+                  'tglabsen'=>$tanggal,
+                  'file'=>$cuti->file,
+                  'masaizin'=>null,
+                ];
+                AbsenModel::insert($absen);
+                $absen=[
+                  'id_absen'=>uniqid(),
+                  'id_pegawai'=>$user->id_user,
+                  'status'=>'C',
+                  'keterangan'=>$cuti->alasan,
+                  'jenis'=>'P',
+                  'kode_unitkerja'=>$cuti->id_instansi,
+                  'no_surat'=>null,
+                  'latitude'=>'-',
+                  'longitude'=>'-',
+                  'swafoto'=>'cuti.png',
+                  'ip'=>'',
+                  'tglabsen'=>$tanggal,
+                  'file'=>$cuti->file,
+                  'masaizin'=>null,
+                ];
+                AbsenModel::insert($absen);
+              }
+              TblCuti::where('id',$r->id)->update($data);
+              return back();
+            }
+            
           }else{
             $data = [
               'status'=>'T'

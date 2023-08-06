@@ -78,6 +78,16 @@ class Cmenu
       return false;
     }
   }
+
+  function getpegawaifromidusers($id){
+    $data = DB::table('tbl_user')->join('tbl_pegawai','tbl_pegawai.id','tbl_user.id_pegawai')->where('id_user',$id)->count();
+    if($data > 0){
+      $data = DB::table('tbl_user')->join('tbl_pegawai','tbl_pegawai.id','tbl_user.id_pegawai')->where('id_user',$id)->first();
+      return $data;
+    }else{
+      return false;
+    }
+  }
   function getpegawaiinstansi($instansi){
     $d    = array();
     $data =  json_decode(file_get_contents('https://pinka.bengkaliskab.go.id/api/simpeg_induk_opt?BADAN-API-21=b4d4n_kpp21&kode_unitkerja='.$instansi), true);

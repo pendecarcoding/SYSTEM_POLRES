@@ -70,9 +70,9 @@ class Cmenu
   }
 
   function getpegawaifromiduser($id){
-    $data = DB::table('tbl_user')->join('tbl_pegawai','tbl_pegawai.id','tbl_user.id_pegawai')->where('id_user',$id)->count();
+    $data = DB::table('tbl_user')->join('tbl_pegawai','tbl_pegawai.id','tbl_user.id_pegawai')->where('id_pegawai',$id)->count();
     if($data > 0){
-      $data = DB::table('tbl_user')->join('tbl_pegawai','tbl_pegawai.id','tbl_user.id_pegawai')->where('id_user',$id)->first();
+      $data = DB::table('tbl_user')->join('tbl_pegawai','tbl_pegawai.id','tbl_user.id_pegawai')->where('id_pegawai',$id)->first();
       return $data;
     }else{
       return false;

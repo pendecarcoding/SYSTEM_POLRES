@@ -22,7 +22,7 @@ $class = new Cmenu();
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-         <h4 class="card-title">Daftar Usulan Cuti Pegawai {{Session::get('kode_unitkerja')}}</h4>
+         <h4 class="card-title">Daftar Usulan Cuti Pegawai</h4>
         </div>
         <div class="card-body">
 
@@ -47,7 +47,7 @@ $class = new Cmenu();
               <tbody>
                 @foreach($data as $i =>$v)
                 @php
-                $pegawai =  $class->getpegawaifromiduser($v->id_pegawai);
+                $pegawai =  $class->getpegawaifromiduser('8');
                 $diterima=  ($v->status=='Y')? 'Disetujui':'Di batalkan';
                 $status  =  ($v->status=='A')? 'Menunggu Konfirmasi..':$diterima;
                 @endphp

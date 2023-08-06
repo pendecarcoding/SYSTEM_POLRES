@@ -259,7 +259,7 @@ public function login(Request $r){
       'message'=>'1',
       'data'=>$data,
       'kantor'=>$lokasikantor,
-      'jam'=>($jam != null) ? $jam:$j=['jam'=>$jam->jam,'batas'=>$jam->batas],
+      'jam'=>($jam != null) ? $jam:$j=['jam'=>'--:--','batas'=>'--:--'],
       'bisaabsen'=>$checkabsen,
       'listabsen'=>$absen
     ]);

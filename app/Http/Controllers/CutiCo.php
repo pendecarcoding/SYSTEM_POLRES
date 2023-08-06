@@ -74,8 +74,20 @@
             
           }else{
             $data = [
-              'status'=>'T'
+              'status'=>'N'
             ];
+            $cuti          = TblCuti::where('id',$r->id)->first();
+            $user          = UserModel::where('id_pegawai',$cuti->id_pegawai)->first();
+            $date_parts    = explode(" s/d ", $cuti->rentang_absen);
+            $tanggal_awal  = $date_parts[0];
+            $tanggal_akhir = $date_parts[1];
+            // Convert tanggal_awal and tanggal_akhir to timestamps
+            $tanggal_awal_timestamp = strtotime($tanggal_awal);
+            $tanggal_akhir_timestamp = strtotime($tanggal_akhir);
+            for ($timestamp = $tanggal_awal_timestamp; $timestamp <= $tanggal_akhir_timestamp; $timestamp += 86400) {
+              $tanggal = date('Y-m-d', $timestamp);
+              AbsenModel::where('id_pegawai',$user->id_user)->where('tglabsen',$tanggal)->delete();
+            }
             TblCuti::where('id',$r->id)->update($data);
             return back();
           }

@@ -82,8 +82,8 @@
                                 <li class="nav-item active"><a class="page-scroll" href="#home">home</a></li>
                                 <li class="nav-item"><a class="page-scroll" href="#services">Fitur Aplikasi</a></li>
                                 <li class="nav-item"><a class="page-scroll" href="#portfolio">Panduan Aplikasi</a></li>
-                                <li class="nav-item"><a class="page-scroll" href="#pricing">Pricing</a></li>
-                                <li class="nav-item"><a class="page-scroll" href="#about">About</a></li>
+                                {{-- <li class="nav-item"><a class="page-scroll" href="#pricing">Pricing</a></li>
+                                <li class="nav-item"><a class="page-scroll" href="#about">About</a></li> --}}
                                 <li class="nav-item"><a class="page-scroll" href="#contact">Titik Kordinat</a></li>
                             </ul>
                         </div>

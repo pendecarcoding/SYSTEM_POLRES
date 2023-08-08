@@ -630,7 +630,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
        >
 <!-- Left -->
 <div class="me-5">
-  <span>Get connected with us on social networks:</span>
+  <span>Terhubung dengan kami di jejaring sosial:</span>
 </div>
 <!-- Left -->
 
@@ -667,12 +667,12 @@ $datamarker = KordinatModel::where('latitude','!=','')
     <!-- Grid column -->
     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
       <!-- Content -->
-      <h6 class="text-uppercase fw-bold">Company name</h6>
+      <h6 class="text-uppercase fw-bold" style="color:white;text-align:left">Badan Kepegawaian, Pendidikan Dan Pelatihan Kabupaten Bengkalis</h6>
       <hr
           class="mb-4 mt-0 d-inline-block mx-auto"
           style="width: 60px; background-color: #7c4dff; height: 2px"
           />
-      <p>
+      <p style="color:white">
         Here you can use rows and columns to organize your footer
         content. Lorem ipsum dolor sit amet, consectetur adipisicing
         elit.
@@ -753,7 +753,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
    >
 © 2020 Copyright:
 <a class="text-white" href="https://mdbootstrap.com/"
-   >MDBootstrap.com</a
+   >MDBootstrap.com| Modify By Tim IT Dinas Komunikasi Informatika dan Statistik Kabupaten Bengkalis</a
   >
 </div>
 <!-- Copyright -->

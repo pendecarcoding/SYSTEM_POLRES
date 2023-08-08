@@ -151,8 +151,8 @@ $datamarker = KordinatModel::where('latitude','!=','')
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">E-ABSENSI KABUPATEN BENGKALIS</h1>
-                                    <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
+                                    <h1 class="title">Fitur Geo Location</h1>
+                                    <p class="text">Dengan fitur ini untuk melakukan absensi menggunakan smartphone dan harus berada pada radius yang telah ditentukan berdasarkan kordinat kantor </p>
                                     <ul class="slider-btn rounded-buttons">
                                         {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
@@ -173,8 +173,8 @@ $datamarker = KordinatModel::where('latitude','!=','')
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">E-ABSENSI</h1>
-                                    <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
+                                    <h1 class="title">E-Cuti & E-dinas</h1>
+                                    <p class="text">Tersedia fitur untuk pengajuan Cuti dan Izin Dinas dalam Sistem Pemerintahan</p>
                                     <ul class="slider-btn rounded-buttons">
                                         {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>

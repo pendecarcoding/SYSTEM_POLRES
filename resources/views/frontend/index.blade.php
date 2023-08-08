@@ -679,7 +679,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
     <!-- Grid column -->
 
     <!-- Grid column -->
-    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+    <div style="text-align: left;"class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
       <!-- Links -->
       <h6 style="text-align:left;color:white" class="text-uppercase fw-bold">APLIKASI KEPEGAWAIAN</h6>
       <hr

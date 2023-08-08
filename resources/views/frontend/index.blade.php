@@ -42,6 +42,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
     
     <!--====== Style CSS ======-->
     <link rel="stylesheet" href="{{asset('frontend')}}/assets/css/style.css">
+    <script src="https://kit.fontawesome.com/ec6fd0ee66.js" crossorigin="anonymous"></script>
     
 </head>
 

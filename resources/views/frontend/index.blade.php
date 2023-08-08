@@ -728,7 +728,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
       <!-- Links -->
       <h6 style="color:white" class="text-uppercase fw-bold" style="color:white;">Downlad</h6>
-      <div>
+      <div style="margin-top:20px">
         <img src="/public/frontend/assets/images/playstoredownload.png" alt="">
       </div>
     </div>

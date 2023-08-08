@@ -699,6 +699,9 @@ $datamarker = KordinatModel::where('latitude','!=','')
       <p>
         <a style="color:white;text-align:left" href="https://pinka.bengkaliskab.go.id" class="text-white">PINKA</a>
       </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://kinerja.bkn.go.id/login" class="text-white">E-KINERJA</a>
+      </p>
     </div>
     <!-- Grid column -->
 

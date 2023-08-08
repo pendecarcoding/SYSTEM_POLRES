@@ -702,24 +702,24 @@ $datamarker = KordinatModel::where('latitude','!=','')
     <!-- Grid column -->
 
     <!-- Grid column -->
-    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+    <div style="text-align: left;"class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
       <!-- Links -->
-      <h6 class="text-uppercase fw-bold">Useful links</h6>
+      <h6 style="text-align:left;color:white" class="text-uppercase fw-bold">INFORMASI BENGKALIS</h6>
       <hr
           class="mb-4 mt-0 d-inline-block mx-auto"
           style="width: 60px; background-color: #7c4dff; height: 2px"
           />
       <p>
-        <a href="#!" class="text-white">Your Account</a>
+        <a style="color:white;text-align:left" href="https://diskominfotik.bengkaliskab.go.id/" class="text-white">DISKOMINFOTIK</a>
       </p>
       <p>
-        <a href="#!" class="text-white">Become an Affiliate</a>
+        <a style="color:white;text-align:left" href="https://humas.bengkaliskab.go.id/" class="text-white">HUMAS</a>
       </p>
       <p>
-        <a href="#!" class="text-white">Shipping Rates</a>
+        <a style="color:white;text-align:left" href="https://bkpp.bengkaliskab.go.id/" class="text-white">BKPP</a>
       </p>
       <p>
-        <a href="#!" class="text-white">Help</a>
+        <a style="color:white;text-align:left" href="https://cctv.bengkaliskab.go.id" class="text-white">CCTV</a>
       </p>
     </div>
     <!-- Grid column -->

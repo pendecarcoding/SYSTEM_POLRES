@@ -681,22 +681,22 @@ $datamarker = KordinatModel::where('latitude','!=','')
     <!-- Grid column -->
     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
       <!-- Links -->
-      <h6 class="text-uppercase fw-bold">APLIKASI KEPEGAWAIAN</h6>
+      <h6 style="text-align:left;color:white" class="text-uppercase fw-bold">APLIKASI KEPEGAWAIAN</h6>
       <hr
           class="mb-4 mt-0 d-inline-block mx-auto"
           style="width: 60px; background-color: #7c4dff; height: 2px"
           />
       <p>
-        <a href="#!" class="text-white">MDBootstrap</a>
+        <a style="color:white;text-align:left" href="https://siasn.bkn.go.id/" class="text-white">SI ASN</a>
       </p>
       <p>
-        <a href="#!" class="text-white">MDWordPress</a>
+        <a style="color:white;text-align:left" href="https://mysapk.bkn.go.id/" class="text-white">My SAPK</a>
       </p>
       <p>
-        <a href="#!" class="text-white">BrandFlow</a>
+        <a style="color:white;text-align:left" href="https://simpegnas.bkn.go.id/" class="text-white">SIMPEGNAS</a>
       </p>
       <p>
-        <a href="#!" class="text-white">Bootstrap Angular</a>
+        <a style="color:white;text-align:left" href="https://pinka.bengkaliskab.go.id" class="text-white">PINKA</a>
       </p>
     </div>
     <!-- Grid column -->

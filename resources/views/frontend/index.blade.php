@@ -276,7 +276,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
                         <h3 class="title">Panduan Penggunaan Aplikasi</h3>
                         <p class="text">untuk penduan penggunaan Aplikasi anda dapat melihatnya dibawah ini</p>
                         <div class="light-rounded-buttons mt-30">
-                        <a href="https://rebrand.ly/smash-ud" rel="nofollow" class="main-btn light-rounded-two">Purchase Now</a>
+                        <iframe src="https://ppkl.menlhk.go.id/website/filebox/592/190408165734um_lhk_ditppa_file_management_2018_v01.pdf" style="width:100%;height:500px" frameborder="0"></iframe>
                         </div>
                     </div> <!-- section title -->
                 </div>

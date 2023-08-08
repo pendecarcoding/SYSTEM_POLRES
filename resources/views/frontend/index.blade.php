@@ -636,7 +636,10 @@ $datamarker = KordinatModel::where('latitude','!=','')
 <!-- Left -->
 
 <!-- Right -->
-<div>
+<div style="display: flex;
+    justify-content: space-between;
+    gap: 38px;
+    flex-direction: row;">
   <a href="" class="text-white me-4">
     <i class="fab fa-facebook-f"></i>
   </a>

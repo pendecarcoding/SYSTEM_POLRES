@@ -197,8 +197,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-10">
                     <div class="section-title text-center pb-10">
-                        <h3 class="title">Our Services</h3>
-                        <p class="text">Stop wasting time and money designing and managing a website that doesn’t get results. Happiness guaranteed!</p>
+                        <h3 class="title">Fitur Aplikasi</h3>
+                        <p class="text">Adapun untuk fitur aplikasi pada Aplikasi ini berupa</p>
                     </div> <!-- row -->
                 </div>
             </div> <!-- row -->
@@ -206,45 +206,45 @@
                 <div class="col-lg-4 col-md-7 col-sm-9">
                     <div class="single-features mt-40">
                         <div class="features-title-icon d-flex justify-content-between">
-                            <h4 class="features-title"><a href="#">Graphics Design</a></h4>
+                            <h4 class="features-title"><a href="#">Absensi</a></h4>
                             <div class="features-icon">
-                                <i class="lni lni-brush"></i>
+                                <i class="lni lni-mobile"></i>
                                 <img class="shape" src="{{asset('frontend')}}/assets/images/f-shape-1.svg" alt="Shape">
                             </div>
                         </div>
                         <div class="features-content">
-                            <p class="text">Short description for the ones who look for something new. Short description for the ones who look for something new.</p>
-                            <a class="features-btn" href="#">LEARN MORE</a>
+                            <p class="text">Fitur ini digunakan untuk pembambilan absensi yang menggunakan titik titik lokasi radius. dimana pegawai hanya bisa melakukan absensi di lokasi yang sudah ditentukan titik lokasinya</p>
+                            <a class="features-btn" href="#"></a>
                         </div>
                     </div> <!-- single features -->
                 </div>
                 <div class="col-lg-4 col-md-7 col-sm-9">
                     <div class="single-features mt-40">
                         <div class="features-title-icon d-flex justify-content-between">
-                            <h4 class="features-title"><a href="#">Website Design</a></h4>
+                            <h4 class="features-title"><a href="#">Izini Dinas</a></h4>
                             <div class="features-icon">
-                                <i class="lni lni-layout"></i>
+                                <i class="lni lni-car"></i>
                                 <img class="shape" src="{{asset('frontend')}}/assets/images/f-shape-1.svg" alt="Shape">
                             </div>
                         </div>
                         <div class="features-content">
-                            <p class="text">Short description for the ones who look for something new. Short description for the ones who look for something new.</p>
-                            <a class="features-btn" href="#">LEARN MORE</a>
+                            <p class="text">Fitur ini digunakan untuk melakukan Izin dinas Pegawai. Pegawai untuk melakukan izin dinas mengupload bukti SPT dinas sebagai ke Aplikasi absensi</p>
+                            <a class="features-btn" href="#"></a>
                         </div>
                     </div> <!-- single features -->
                 </div>
                 <div class="col-lg-4 col-md-7 col-sm-9">
                     <div class="single-features mt-40">
                         <div class="features-title-icon d-flex justify-content-between">
-                            <h4 class="features-title"><a href="#">Digital Marketing</a></h4>
+                            <h4 class="features-title"><a href="#">Izin Cuti</a></h4>
                             <div class="features-icon">
-                                <i class="lni lni-bolt"></i>
+                                <i class="lni lni-calendar"></i>
                                 <img class="shape" src="{{asset('frontend')}}/assets/images/f-shape-1.svg" alt="Shape">
                             </div>
                         </div>
                         <div class="features-content">
                             <p class="text">Short description for the ones who look for something new. Short description for the ones who look for something new.</p>
-                            <a class="features-btn" href="#">LEARN MORE</a>
+                            <a class="features-btn" href="#"></a>
                         </div>
                     </div> <!-- single features -->
                 </div>
@@ -261,8 +261,8 @@
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="section-title text-center pb-10">
-                        <h3 class="title">You are using free lite version</h3>
-                        <p class="text">Please, purchase full version to get all pages and features</p>
+                        <h3 class="title">Panduan Penggunaan Aplikasi</h3>
+                        <p class="text">untuk penduan penggunaan Aplikasi anda dapat melihatnya dibawah ini</p>
                         <div class="light-rounded-buttons mt-30">
                         <a href="https://rebrand.ly/smash-ud" rel="nofollow" class="main-btn light-rounded-two">Purchase Now</a>
                         </div>
@@ -276,7 +276,7 @@
     
     <!--====== PRINICNG START ======-->
 
-    <section id="pricing" class="pricing-area ">
+    {{-- <section id="pricing" class="pricing-area ">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-10">
@@ -365,7 +365,7 @@
                         <a href="https://rebrand.ly/smash-ud" rel="nofollow" class="main-btn light-rounded-two">Purchase Now</a>
                         </div>
                     </div> <!-- section title -->
-    </section>
+    </section> --}}
 
     <!--====== ABOUT PART ENDS ======-->
     
@@ -390,7 +390,7 @@
                     </div> <!-- row -->
                 </div>
             </div> <!-- row -->
-            <div class="contact-info pt-30">
+            {{-- <div class="contact-info pt-30">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="single-contact-info contact-color-1 mt-30 d-flex ">
@@ -470,7 +470,7 @@
                         </form>
                     </div> <!-- contact wrapper form -->
                 </div>
-            </div> <!-- row -->
+            </div> <!-- row --> --}}
         </div> <!-- container -->
     </section>
 
@@ -478,30 +478,145 @@
     
     <!--====== FOOTER PART START ======-->
 
-    <section class="footer-area footer-dark">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="footer-logo text-center">
-                        <a class="mt-30" href="index.html"><img src="{{asset('frontend')}}/assets/images/logo.png" alt="Logo"></a>
-                    </div> <!-- footer logo -->
-                    <ul class="social text-center mt-60">
-                        <li><a href="https://facebook.com/uideckHQ"><i class="lni lni-facebook-filled"></i></a></li>
-                        <li><a href="https://twitter.com/uideckHQ"><i class="lni lni-twitter-original"></i></a></li>
-                        <li><a href="https://instagram.com/uideckHQ"><i class="lni lni-instagram-original"></i></a></li>
-                        <li><a href="#"><i class="lni lni-linkedin-original"></i></a></li>
-                    </ul> <!-- social -->
-                    <div class="footer-support text-center">
-                        <span class="number">+8801234567890</span>
-                        <span class="mail">support@uideck.com</span>
-                    </div>
-                    <div class="copyright text-center mt-35">
-                        <p class="text">Designed by <a href="https://uideck.com" rel="nofollow">UIdeck</a> and Built-with <a rel="nofollow" href="https://ayroui.com">Ayro UI</a> </p>
-                    </div> <!--  copyright -->
-                </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
-    </section>
+    <footer
+    class="text-center text-lg-start text-white"
+    style="background-color: #1c2331"
+    >
+<!-- Section: Social media -->
+<section
+       class="d-flex justify-content-between p-4"
+       style="background-color: #0266f4;"
+       >
+<!-- Left -->
+<div class="me-5">
+  <span>Get connected with us on social networks:</span>
+</div>
+<!-- Left -->
+
+<!-- Right -->
+<div>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-twitter"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-google"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-linkedin"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-github"></i>
+  </a>
+</div>
+<!-- Right -->
+</section>
+<!-- Section: Social media -->
+
+<!-- Section: Links  -->
+<section class="">
+<div class="container text-center text-md-start mt-5">
+  <!-- Grid row -->
+  <div class="row mt-3">
+    <!-- Grid column -->
+    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+      <!-- Content -->
+      <h6 class="text-uppercase fw-bold">Company name</h6>
+      <hr
+          class="mb-4 mt-0 d-inline-block mx-auto"
+          style="width: 60px; background-color: #7c4dff; height: 2px"
+          />
+      <p>
+        Here you can use rows and columns to organize your footer
+        content. Lorem ipsum dolor sit amet, consectetur adipisicing
+        elit.
+      </p>
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+      <!-- Links -->
+      <h6 class="text-uppercase fw-bold">Products</h6>
+      <hr
+          class="mb-4 mt-0 d-inline-block mx-auto"
+          style="width: 60px; background-color: #7c4dff; height: 2px"
+          />
+      <p>
+        <a href="#!" class="text-white">MDBootstrap</a>
+      </p>
+      <p>
+        <a href="#!" class="text-white">MDWordPress</a>
+      </p>
+      <p>
+        <a href="#!" class="text-white">BrandFlow</a>
+      </p>
+      <p>
+        <a href="#!" class="text-white">Bootstrap Angular</a>
+      </p>
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+      <!-- Links -->
+      <h6 class="text-uppercase fw-bold">Useful links</h6>
+      <hr
+          class="mb-4 mt-0 d-inline-block mx-auto"
+          style="width: 60px; background-color: #7c4dff; height: 2px"
+          />
+      <p>
+        <a href="#!" class="text-white">Your Account</a>
+      </p>
+      <p>
+        <a href="#!" class="text-white">Become an Affiliate</a>
+      </p>
+      <p>
+        <a href="#!" class="text-white">Shipping Rates</a>
+      </p>
+      <p>
+        <a href="#!" class="text-white">Help</a>
+      </p>
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+      <!-- Links -->
+      <h6 class="text-uppercase fw-bold">Contact</h6>
+      <hr
+          class="mb-4 mt-0 d-inline-block mx-auto"
+          style="width: 60px; background-color: #7c4dff; height: 2px"
+          />
+      <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+      <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
+      <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+      <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+    </div>
+    <!-- Grid column -->
+  </div>
+  <!-- Grid row -->
+</div>
+</section>
+<!-- Section: Links  -->
+
+<!-- Copyright -->
+<div
+   class="text-center p-3"
+   style="background-color: rgba(0, 0, 0, 0.2)"
+   >
+© 2020 Copyright:
+<a class="text-white" href="https://mdbootstrap.com/"
+   >MDBootstrap.com</a
+  >
+</div>
+<!-- Copyright -->
+</footer>
 
     <!--====== FOOTER PART ENDS ======-->
     

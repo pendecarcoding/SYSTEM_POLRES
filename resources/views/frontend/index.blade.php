@@ -398,7 +398,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
-                      <h3 class="tile-title">Kordinat</h3>
+                     
               
                         <div class="peta" id="peta" style="margin-top:2px;width:100%;height:500px;"></div>
               

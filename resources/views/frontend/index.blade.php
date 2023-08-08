@@ -672,10 +672,9 @@ $datamarker = KordinatModel::where('latitude','!=','')
           class="mb-4 mt-0 d-inline-block mx-auto"
           style="width: 60px; background-color: #7c4dff; height: 2px"
           />
-      <p style="text-align:left;color:white"><i class="fas fa-home mr-3"></i>F4FF+8H9, Jl. Antara, Senggoro, Kec. Bengkalis, Kabupaten Bengkalis, Riau 28711</p>
-      <p style="text-align:left;color:white"><i class="fas fa-envelope mr-3"></i>bkpp@bengkaliskab.go.id</p>
-      <p style="text-align:left;color:white"><i class="fas fa-phone mr-3"></i> (0766) 21072</p>
-      <p style="text-align:left;color:white"><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+      <p style="text-align:left;color:white">Alamat : F4FF+8H9, Jl. Antara, Senggoro, Kec. Bengkalis, Kabupaten Bengkalis, Riau 28711</p>
+      <p style="text-align:left;color:white">Email : bkpp@bengkaliskab.go.id</p>
+      <p style="text-align:left;color:white">Telp : (0766) 21072</p>
     </div>
     <!-- Grid column -->
 

@@ -1,3 +1,15 @@
+<?php
+use App\Cmenu;
+use App\KordinatModel;
+
+$class = new Cmenu();
+$datamarker = KordinatModel::where('latitude','!=','')
+                ->where('longitude','!=','')
+                ->get();
+  $clatitude   = '1.583164915316166';
+  $clongitude  = '101.81656018345798';
+   $zoom = 9;
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -384,11 +396,140 @@
                 </div>
             </div> <!-- row -->
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="contact-map mt-30">
-                        <iframe id="gmap_canvas" src="https://maps.google.com/maps?q=Mission%20District%2C%20San%20Francisco%2C%20CA%2C%20USA&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                    </div> <!-- row -->
-                </div>
+                <div class="col-md-12">
+                    <div class="tile">
+                      <h3 class="tile-title">Kordinat</h3>
+              
+                        <div class="peta" id="peta" style="margin-top:2px;width:100%;height:500px;"></div>
+              
+                        <script>
+                        function initAutocomplete() {
+                        var map = new google.maps.Map(document.getElementById('peta'), {
+                        center: {lat: {{$clatitude}}, lng: {{$clongitude}}},
+                        zoom: {{$zoom}},
+                        mapTypeId: 'terrain'
+              
+                        });
+              
+                        // Create the search box and link it to the UI element.
+                        var input = document.getElementById('pac-input');
+                        var searchBox = new google.maps.places.SearchBox(input);
+                        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+              
+                        // Bias the SearchBox results towards current map's viewport.
+                        map.addListener('bounds_changed', function() {
+                        searchBox.setBounds(map.getBounds());
+              
+                        });
+              
+                        var markers = [];
+                        // Listen for the event fired when the user selects a prediction and retrieve
+                        // more details for that place.
+                        searchBox.addListener('places_changed', function() {
+                        var places = searchBox.getPlaces();
+              
+                        if (places.length == 0) {
+                        return;
+                        }
+              
+                        // Clear out the old markers.
+                        markers.forEach(function(marker) {
+                        marker.setMap(null);
+                        });
+                        markers = [];
+              
+                        // For each place, get the icon, name and location.
+                        var bounds = new google.maps.LatLngBounds();
+                        places.forEach(function(place) {
+                        if (!place.geometry) {
+                          console.log("Returned place contains no geometry");
+                          return;
+                        }
+                        var icon = {
+                          url: place.icon,
+                          size: new google.maps.Size(71, 71),
+                          origin: new google.maps.Point(0, 0),
+                          anchor: new google.maps.Point(17, 34),
+                          scaledSize: new google.maps.Size(25, 25)
+                        };
+              
+                        // Create a marker for each place.
+                        markers.push(new google.maps.Marker({
+                          map: map,
+                          icon: icon,
+                          title: place.name,
+                          position: place.geometry.location
+                        }));
+              
+                        if (place.geometry.viewport) {
+                          // Only geocodes have viewport.
+                          bounds.union(place.geometry.viewport);
+                        } else {
+                          bounds.extend(place.geometry.location);
+                        }
+                        });
+                        map.fitBounds(bounds);
+                        });
+                        var locations = [
+              
+                        @foreach($datamarker as $key => $v)
+                        <?php
+                        $instansi = $class->namainstansi($v->kode_unitkerja);
+                        ?>
+                        ['<h4><b style="color:red;">{{$instansi->nama_unitkerja}}</b></h4><hr><br><b>Kode Unitkerja </b>: </b> {{$v->kode_unitkerja}}<br><b>Kecamatan</b> : {{$instansi->kecamatan}}<br><b>Alamat</b> : {{$instansi->alamat}}<br><b>Radius</b> : <b style="color:red;">{{$v->radius}} meter</b><br><b>Latitude </b> : <b style="color:#ffae00;">{{$v->latitude}}</b><br><b>Longitude</b> : <b style="color:#ffae00;">{{$v->longitude}}</b>', {{$v->latitude}}, {{$v->longitude}},{{$v->radius}}],
+                        @endforeach
+              
+                        ];
+              
+              
+              
+              
+                        var infowindow = new google.maps.InfoWindow();
+              
+              
+                        //
+              
+                        var marker, i,circle;
+                        /* kode untuk menampilkan banyak marker */
+                        for (i = 0; i < locations.length; i++) {
+                        marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map,
+              
+              
+                        // icon: "https://bengkaliskab.go.id/gis/images/building.png"
+              
+              
+                        });
+              
+                        circle = new google.maps.Circle({
+                        map: map,
+                        radius: locations[i][3],    // 10 miles in metres
+                        fillColor: '#b6e7bacc'
+                        });
+              
+                        circle.bindTo('center', marker, 'position');
+              
+                        /* menambahkan event clik untuk menampikan
+                        infowindows dengan isi sesuai denga
+                        marker yang di klik */
+              
+                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                        infowindow.setContent(locations[i][0]);
+                        infowindow.open(map, marker);
+                        }
+                        })(marker, i));
+                        }
+              
+                        }
+              
+                        </script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwxUvl3u_d_3fdomak3SKTITmJqQaDXak&libraries=places&callback=initAutocomplete"
+                        async defer></script>
+              
+                    </div>
+                  </div>
             </div> <!-- row -->
             {{-- <div class="contact-info pt-30">
                 <div class="row">

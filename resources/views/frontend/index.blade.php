@@ -132,7 +132,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
                                     <h1 class="title">E-ABSENSI</h1>
                                     <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis. Sistem ini merupakan inovasi Pemerintah kabupaten bengkalis dalam melakukan ABSENSI di seluruh SKPD Kabupaten Bengkalis</p>
                                     <ul class="slider-btn rounded-buttons">
-                                        <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
+                                        {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
                                     </ul>
                                 </div>
@@ -154,7 +154,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
                                     <h1 class="title">E-ABSENSI KABUPATEN BENGKALIS</h1>
                                     <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
                                     <ul class="slider-btn rounded-buttons">
-                                        <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
+                                        {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
                                     </ul>
                                 </div> <!-- slider-content -->
@@ -176,7 +176,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
                                     <h1 class="title">E-ABSENSI</h1>
                                     <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
                                     <ul class="slider-btn rounded-buttons">
-                                        <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
+                                        {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
                                     </ul>
                                 </div> <!-- slider-content -->
@@ -681,7 +681,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
     <!-- Grid column -->
     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
       <!-- Links -->
-      <h6 class="text-uppercase fw-bold">Products</h6>
+      <h6 class="text-uppercase fw-bold">APLIKASI KEPEGAWAIAN</h6>
       <hr
           class="mb-4 mt-0 d-inline-block mx-auto"
           style="width: 60px; background-color: #7c4dff; height: 2px"

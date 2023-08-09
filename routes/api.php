@@ -24,6 +24,7 @@ Route::prefix('absensiAPI')->group(function () {
     Route::match(['get','post'],'updatesandi', 'AndroCo@updatesandi')->name('apiupdatesandi');
     Route::match(['get','post'],'addizin', 'AndroCo@addizin')->name('apiaddizin');
     Route::match(['get','post'],'getcuti/{id}/{idistansi}', 'AndroCo@getcuti')->name('apicuti');
+    Route::match(['get','post'],'getdinas{id}/{idistansi}', 'AndroCo@getcuti')->name('apicuti');
     Route::match(['get','post'],'deletecuti/{id}', 'AndroCo@deletecuti')->name('deletecuti');
     Route::match(['get','post'],'addabsen', 'AndroCo@addabsen')->name('apiaddabsen');
     Route::match(['get','post'],'addcuti', 'AndroCo@addcuti')->name('apiaddcuti');

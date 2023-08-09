@@ -16,6 +16,7 @@ use App\AbsenModel;
 use App\RouteModel;
 use App\KordinatModel;
 use App\TblCuti;
+use App\TblDinas;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -302,6 +303,53 @@ public function updatesandi(Request $r){
   }
 }
 
+
+function adddinas(Request $request){
+  if ($request->hasFile('file')) {
+    // Handle file upload as before
+
+    // Handle additional data if needed
+    $id = $request->input('id');
+    $dari = $request->input('dari');
+    $sampai = $request->input('sampai');
+    $alasan = $request->input('alasan');
+    $rentang= $dari.' s/d '.$sampai;
+
+    $class = new Cmenu();
+    $pg    = $class->getpegawai($id);
+
+    try {
+      $file = $request->file('file');
+      $filename = $file->getClientOriginalName();
+      
+      $data=[
+        'rentang_absen'=>$rentang,
+        'alasan'=>$alasan,
+        'id_instansi'=>$pg->kode_unitkerja,
+        'file'=>$filename,
+        'id_pegawai'=>$id,
+        'status'=>'A',
+      ];
+      try {
+        TblDinas::insert($data);
+        $file->move(public_path('uploads'), $filename);
+        return response()->json(['message' => 'File uploaded successfully']);
+      } catch (\Throwable $th) {
+        return response()->json(['message' => $th->getMessage()]);
+      }
+      
+    } catch (\Throwable $th) {
+      return response()->json(['message' => $th->getMessage()]);
+    }
+
+    // Return a success response or perform further actions
+    
+} else {
+    // Return an error response
+    return response()->json(['message' => 'No file provided'], 400);
+}
+}
+
 //CUTI
 
 function addcuti(Request $request){
@@ -354,6 +402,26 @@ function addcuti(Request $request){
 function getcuti($id,$idistansi){
   try {
     $data = TblCuti::where('id_pegawai',$id)
+    ->where('id_instansi',$idistansi)
+    ->orderBy('created_at','desc')
+    ->get();
+    $result=[
+      'message'=>'1',
+      'data'=>$data,
+    ];
+    print json_encode($result);
+  } catch (\Throwable $th) {
+    $result=[
+      'message'=>'0',
+      'data'=>null,
+    ];
+    print json_encode($result);
+  }
+}
+
+function getdinas($id,$idistansi){
+  try {
+    $data = TblDinas::where('id_pegawai',$id)
     ->where('id_instansi',$idistansi)
     ->orderBy('created_at','desc')
     ->get();

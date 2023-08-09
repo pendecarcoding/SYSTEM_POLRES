@@ -174,7 +174,7 @@ $datamarker = KordinatModel::where('latitude','!=','')
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">E-Cuti & E-dinas</h1>
+                                    <h1 class="title">E-Cuti dan E-dinas</h1>
                                     <p class="text">Tersedia fitur untuk pengajuan Cuti dan Izin Dinas dalam Sistem Pemerintahan</p>
                                     <ul class="slider-btn rounded-buttons">
                                         {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}

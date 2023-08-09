@@ -15430,7 +15430,7 @@ be a descendant of the grid when it is being dragged.
 
 ::selection {
   color: #fff;
-  background-color: #00635a;
+  background-color: #0969f3;
 }
 
 @media (min-width: 768px) {
@@ -16505,7 +16505,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .material-half-bg .cover {
-  background-color: #009688;
+  background-color: #0969f3;
   height: 50vh;
 }
 

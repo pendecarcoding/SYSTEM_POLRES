@@ -21,7 +21,6 @@ $apps = AplikasiModel::where('id_app','1')->first();
     </section>
     <section class="login-content">
       <div class="logo">
-        <h1>Selamat Datang</h1>
       </div>
       <div class="login-box">
         <form class="login-form" action="{{url('loginpost')}}"> {{csrf_field()}}

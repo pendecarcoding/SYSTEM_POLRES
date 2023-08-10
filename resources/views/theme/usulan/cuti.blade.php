@@ -47,7 +47,7 @@ $class = new Cmenu();
               <tbody>
                 @foreach($data as $i =>$v)
                 @php
-                $pegawai =  $class->getpegawaifromiduser('8');
+                $pegawai =  $class->getpegawaifromiduser($v->id_pegawai);
                 $diterima=  ($v->status=='Y')? 'Disetujui':'Di batalkan';
                 $status  =  ($v->status=='A')? 'Menunggu Konfirmasi..':$diterima;
                 @endphp

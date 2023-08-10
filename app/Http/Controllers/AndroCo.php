@@ -441,6 +441,26 @@ function getdinas($id,$idistansi){
   }
 }
 
+function deletedinas($id){
+  try {
+    $file = TblDinas::where('id',$id)->first();
+    if(file_exists(public_path('uploads/'.$file->file))){
+      unlink(public_path('uploads/'.$file->file));
+    }
+    TblDinas::where('id',$id)
+    ->delete();
+    $result=[
+      'message'=>'success',
+    ];
+    print json_encode($result);
+   }catch (\Throwable $th) {
+    $result=[
+      'message'=>$th->getMessage(),
+    ];
+    print json_encode($result);
+  }
+}
+
 function deletecuti($id){
   try {
     $file = TblCuti::where('id',$id)->first();
@@ -460,6 +480,8 @@ function deletecuti($id){
     print json_encode($result);
   }
 }
+
+
 
 function updatecutiimage(Request $request){
   if ($request->hasFile('file')) {

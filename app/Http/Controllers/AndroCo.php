@@ -313,6 +313,7 @@ function adddinas(Request $request){
     $dari = $request->input('dari');
     $sampai = $request->input('sampai');
     $alasan = $request->input('alasan');
+    $nospt  = $request->input('nospt');
     $rentang= $dari.' s/d '.$sampai;
 
     $class = new Cmenu();
@@ -327,12 +328,13 @@ function adddinas(Request $request){
         'alasan'=>$alasan,
         'id_instansi'=>$pg->kode_unitkerja,
         'file'=>$filename,
+        'nospt'=>$nospt,
         'id_pegawai'=>$id,
         'status'=>'A',
       ];
       try {
         TblDinas::insert($data);
-        $file->move(public_path('uploads'), $filename);
+        $file->move(public_path('uploads/dinas'), $filename);
         return response()->json(['message' => 'File uploaded successfully']);
       } catch (\Throwable $th) {
         return response()->json(['message' => $th->getMessage()]);

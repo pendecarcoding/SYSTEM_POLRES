@@ -33,6 +33,8 @@ Route::prefix('absensiAPI')->group(function () {
     Route::match(['get','post'],'getemployee', 'AndroCo@getemployee')->name('getemployee');
     Route::match(['get','post'],'updatecutinoimage', 'AndroCo@updatecutinoimage')->name('updatecutinoimage');
     Route::match(['get','post'],'updatecutiimage', 'AndroCo@updatecutiimage')->name('updatecutiimage');
+    Route::match(['get','post'],'updatedinasnoimage', 'AndroCo@updatedinasnoimage')->name('updatedinasnoimage');
+    Route::match(['get','post'],'updatedinasimage', 'AndroCo@updatedinasimage')->name('updatedinasimage');
 
 
 });

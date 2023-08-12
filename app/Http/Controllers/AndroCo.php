@@ -481,6 +481,84 @@ function deletecuti($id){
   }
 }
 
+function updatedinasnoimage(Request $request){
+  $id = $request->input('id');
+  $id_dinas = $request->input('id_dinas');
+  $nospt    = $request->input('nospt');
+  $dari = $request->input('dari');
+  $sampai = $request->input('sampai');
+  $alasan = $request->input('alasan');
+  $rentang= $dari.' s/d '.$sampai;
+try {
+  $data=[
+    'nospt'=>$nospt,
+    'rentang_absen'=>$rentang,
+    'alasan'=>$alasan,
+    'id_pegawai'=>$id,
+  ];
+  TblDinas::where('id',$id_dinas)->update($data);
+  $result=[
+    'message'=>'Update Berhasil',
+  ];
+  print json_encode($result);
+} catch (\Throwable $th) {
+  $result=[
+    'message'=>$th->getMessage(),
+  ];
+  print json_encode($result);
+}
+}
+
+function updatedinasimage(Request $request){
+  if ($request->hasFile('file')) {
+    // Handle file upload as before
+
+    // Handle additional data if needed
+    $id        = $request->input('id');
+    $id_dinas  = $request->input('id_dinas');
+    $dari      = $request->input('dari');
+    $sampai    = $request->input('sampai');
+    $alasan    = $request->input('alasan');
+    $nospt     = $request->input('nospt');
+    $rentang   = $dari.' s/d '.$sampai;
+    $class     = new Cmenu();
+    $pg        = $class->getpegawai($id);
+    $file      = TblDinas::where('id',$id_dinas)->first();
+    if(file_exists(public_path('uploads/'.$file->file))){
+      unlink(public_path('uploads/'.$file->file));
+    }
+    try {
+      $file = $request->file('file');
+      $filename = $file->getClientOriginalName();
+      
+      $data=[
+        'rentang_absen'=>$rentang,
+        'alasan'=>$alasan,
+        'nospt'=>$nospt,
+        'id_instansi'=>$pg->kode_unitkerja,
+        'file'=>$filename,
+        'id_pegawai'=>$id,
+        'status'=>'A',
+      ];
+      try {
+        TblDinas::where('id',$id_dinas)->update($data);
+        $file->move(public_path('uploads'), $filename);
+        return response()->json(['message' => 'File uploaded successfully']);
+      } catch (\Throwable $th) {
+        return response()->json(['message' => $th->getMessage()]);
+      }
+      
+    } catch (\Throwable $th) {
+      return response()->json(['message' => $th->getMessage()]);
+    }
+
+    // Return a success response or perform further actions
+    
+} else {
+    // Return an error response
+    return response()->json(['message' => 'No file provided'], 400);
+}
+}
 
 
 function updatecutiimage(Request $request){

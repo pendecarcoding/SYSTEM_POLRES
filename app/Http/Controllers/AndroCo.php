@@ -839,6 +839,39 @@ public function getdataid($id){
 }
 
 
+public function getabsenbypegawai(Request $r){
+  try {
+    $result= array();
+      $check = AbsenModel::where('id_pegawai',$r->id)
+      ->where('jenis',$jenis)
+                ->where('kode_unitkerja',$r->kode_unitkerja)
+                ->wheredate('tglabsen',$r->tgl)
+               ->first();
+
+      if($check){
+        $result=[
+          'status'=>$check->status,
+          'latitude'=>$check->latitude,
+          'longitude'=>$check->longitude,
+          'waktuabsen'=>$check->time,
+        ];
+        print json_encode($result);
+      }else{
+        //test
+        $result=[
+          'status'=>'',
+          'latitude'=>'',
+          'longitude'=>'',
+          'waktuabsen'=>'',
+        ];
+        print json_encode($result);
+      }
+  } catch (\Throwable $th) {
+    //throw $th;
+  }
+}
+
+
 
 public function updateprofile(Request $r){
   try {

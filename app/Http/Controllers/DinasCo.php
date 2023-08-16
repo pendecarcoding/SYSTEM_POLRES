@@ -6,12 +6,95 @@
       use DataTables;
       use Session;
       use App\Cmenu;
+      use App\UserModel;
+      use App\AbsenModel;
       use Intervention\Image\ImageManagerStatic as Image;
       class DinasCo extends Controller
       {
         public function __construct()
       {
 
+      }
+
+      public function updateaksidinas(Request $r){
+        try {
+          if($r->filled('aksi')){
+            $data = [
+              'status'=>$r->aksi
+            ];
+            if($r->aksi=='Y'){
+              $cuti          = TblDinas::where('id',$r->id)->first();
+              $user          = UserModel::where('id_pegawai',$cuti->id_pegawai)->first();
+              $date_parts    = explode(" s/d ", $cuti->rentang_absen);
+              $tanggal_awal  = $date_parts[0];
+              $tanggal_akhir = $date_parts[1];
+              // Convert tanggal_awal and tanggal_akhir to timestamps
+              $tanggal_awal_timestamp = strtotime($tanggal_awal);
+              $tanggal_akhir_timestamp = strtotime($tanggal_akhir);
+              for ($timestamp = $tanggal_awal_timestamp; $timestamp <= $tanggal_akhir_timestamp; $timestamp += 86400) {
+                $tanggal = date('Y-m-d', $timestamp);
+                $absen=[
+                  'id_absen'=>uniqid(),
+                  'id_pegawai'=>$user->id_user,
+                  'status'=>'D',
+                  'keterangan'=>$cuti->alasan,
+                  'jenis'=>'M',
+                  'kode_unitkerja'=>$cuti->id_instansi,
+                  'no_surat'=>null,
+                  'latitude'=>'-',
+                  'longitude'=>'-',
+                  'swafoto'=>'dinas.png',
+                  'ip'=>'',
+                  'tglabsen'=>$tanggal,
+                  'file'=>$cuti->file,
+                  'masaizin'=>null,
+                ];
+                AbsenModel::insert($absen);
+                $absen=[
+                  'id_absen'=>uniqid(),
+                  'id_pegawai'=>$user->id_user,
+                  'status'=>'D',
+                  'keterangan'=>$cuti->alasan,
+                  'jenis'=>'P',
+                  'kode_unitkerja'=>$cuti->id_instansi,
+                  'no_surat'=>null,
+                  'latitude'=>'-',
+                  'longitude'=>'-',
+                  'swafoto'=>'cuti.png',
+                  'ip'=>'',
+                  'tglabsen'=>$tanggal,
+                  'file'=>$cuti->file,
+                  'masaizin'=>null,
+                ];
+                AbsenModel::insert($absen);
+              }
+              TblDinas::where('id',$r->id)->update($data);
+              return back();
+            }
+            
+          }else{
+            $data = [
+              'status'=>'N'
+            ];
+            $cuti          = TblDinas::where('id',$r->id)->first();
+            $user          = UserModel::where('id_pegawai',$cuti->id_pegawai)->first();
+            $date_parts    = explode(" s/d ", $cuti->rentang_absen);
+            $tanggal_awal  = $date_parts[0];
+            $tanggal_akhir = $date_parts[1];
+            // Convert tanggal_awal and tanggal_akhir to timestamps
+            $tanggal_awal_timestamp = strtotime($tanggal_awal);
+            $tanggal_akhir_timestamp = strtotime($tanggal_akhir);
+            for ($timestamp = $tanggal_awal_timestamp; $timestamp <= $tanggal_akhir_timestamp; $timestamp += 86400) {
+              $tanggal = date('Y-m-d', $timestamp);
+              AbsenModel::where('id_pegawai',$user->id_user)->where('tglabsen',$tanggal)->delete();
+            }
+            TblDinas::where('id',$r->id)->update($data);
+            return back();
+          }
+          
+        } catch (\Throwable $th) {
+          print $th->getmessage();
+        }
       }
 
       public function index(){

@@ -843,7 +843,7 @@ public function getabsenbypegawai(Request $r){
   try {
     $result= array();
       $check = AbsenModel::where('id_pegawai',$r->id)
-      ->where('jenis',$jenis)
+      ->where('jenis',$r->jenis)
                 ->where('kode_unitkerja',$r->kode_unitkerja)
                 ->wheredate('tglabsen',$r->tgl)
                ->first();
@@ -867,7 +867,7 @@ public function getabsenbypegawai(Request $r){
         print json_encode($result);
       }
   } catch (\Throwable $th) {
-    //throw $th;
+    print $th->getmessage();
   }
 }
 

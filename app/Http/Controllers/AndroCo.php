@@ -842,7 +842,8 @@ public function getdataid($id){
 public function getabsenbypegawai(Request $r){
   try {
     $result= array();
-      $check = AbsenModel::where('id_pegawai',$r->id)
+      $user  = UserModel::where('id_pegawai',$r->id)->first();
+      $check = AbsenModel::where('id_pegawai',$user->id_user)
       ->where('jenis',$r->jenis)
                 ->where('kode_unitkerja',$r->kode_unitkerja)
                 ->where('tglabsen',$r->tgl)

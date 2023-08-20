@@ -845,7 +845,7 @@ public function getabsenbypegawai(Request $r){
       $check = AbsenModel::where('id_pegawai',$r->id)
       ->where('jenis',$r->jenis)
                 ->where('kode_unitkerja',$r->kode_unitkerja)
-                ->wheredate('tglabsen',$r->tgl)
+                ->where('tglabsen',$r->tgl)
                ->first();
 
       if($check){

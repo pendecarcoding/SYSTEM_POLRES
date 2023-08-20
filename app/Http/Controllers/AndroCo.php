@@ -219,14 +219,26 @@ public function apiandro($key=null,$url=null,Request $r){
 
 public function getemployee(Request $r){
   try {
-    $data = PegawaiModel::where('kode_unitkerja',$r->kode_unitkerja)
-            ->where('id','!=',$r->id)
-            ->get();
-    $d=[
+    if($r->has('query') AND $r->query != ''){
+      $data = PegawaiModel::where('kode_unitkerja',$r->kode_unitkerja)
+      ->where('nama',$r->query)
+      ->get();
+      $d=[
       'message'=>'1',
       'data'=>$data
-    ];
-    print json_encode($d);
+      ];
+      print json_encode($d);
+    }else{
+      $data = PegawaiModel::where('kode_unitkerja',$r->kode_unitkerja)
+      ->where('id','!=',$r->id)
+      ->get();
+      $d=[
+      'message'=>'1',
+      'data'=>$data
+      ];
+      print json_encode($d);
+    }
+    
     
   } catch (\Throwable $th) {
     //throw $th;

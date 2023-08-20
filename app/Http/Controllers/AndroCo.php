@@ -854,6 +854,7 @@ public function getabsenbypegawai(Request $r){
           'latitude'=>$check->latitude,
           'longitude'=>$check->longitude,
           'waktuabsen'=>$check->time,
+          'keterangan'=>$check->keterangan,
         ];
         print json_encode($result);
       }else{
@@ -863,6 +864,7 @@ public function getabsenbypegawai(Request $r){
           'latitude'=>'',
           'longitude'=>'',
           'waktuabsen'=>'',
+          'keterangan'=>'',
         ];
         print json_encode($result);
       }

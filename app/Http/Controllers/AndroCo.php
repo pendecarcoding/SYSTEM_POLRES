@@ -241,7 +241,7 @@ public function getemployee(Request $r){
     
     
   } catch (\Throwable $th) {
-    //throw $th;
+    print $th->getmessage();
   }
 }
 

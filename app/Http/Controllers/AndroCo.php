@@ -219,30 +219,31 @@ public function apiandro($key=null,$url=null,Request $r){
 
 public function getemployee(Request $r){
   try {
-    if($r->query != ''){
-      $data = PegawaiModel::where('kode_unitkerja',$r->kode_unitkerja)
-      ->where('nama', 'LIKE', '%' . $r->query . '%')
-      ->get();
-      $d=[
-      'message'=>'1',
-      'data'=>$data
-      ];
-      print json_encode($d);
-    }else{
-      $data = PegawaiModel::where('kode_unitkerja',$r->kode_unitkerja)
-      ->where('id','!=',$r->id)
-      ->get();
-      $d=[
-      'message'=>'1',
-      'data'=>$data
-      ];
-      print json_encode($d);
+    if ($r->query != '') {
+        $data = PegawaiModel::where('kode_unitkerja', $r->kode_unitkerja)
+            ->where('nama', 'LIKE', '%' . $r->query . '%')
+            ->get();
+    } else {
+        $data = PegawaiModel::where('kode_unitkerja', $r->kode_unitkerja)
+            ->where('id', '!=', $r->id)
+            ->get();
     }
-    
-    
-  } catch (\Throwable $th) {
-    print $th->getmessage();
-  }
+
+    $response = [
+        'message' => '1',
+        'data' => $data
+    ];
+
+    // Return the JSON response
+    return response()->json($response);
+} catch (\Throwable $th) {
+    // Handle the exception
+    return response()->json([
+        'message' => 'An error occurred',
+        'error' => $th->getMessage()
+    ], 500); // Use an appropriate HTTP status code
+}
+
 }
 
 public function login(Request $r){

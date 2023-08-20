@@ -197,7 +197,7 @@ public function absenmanual(Request $r){
    $checkuser = UserModel::where('id_pegawai',$r->id)->count();
    if($checkuser > 0){
     $user = UserModel::where('id_pegawai',$r->id)->first();
-    $keterangan = ($r->status=='A')?'Tanpa Keterangan':'Hadir';
+    $keterangan = ($r->status=='A')?'Tanpa Keterangan':'Hadir (ABSEN MANUAL)';
     $keterangan = ($r->status=='C')?'Cuti':$keterangan;
     $keterangan = ($r->status=='S')?'Sakit':$keterangan;
     $keterangan = ($r->status=='P')?'Pendidikan':$keterangan;

@@ -219,9 +219,9 @@ public function apiandro($key=null,$url=null,Request $r){
 
 public function getemployee(Request $r){
   try {
-    if ($r->query != '') {
+    if ($r->nama_query != '') {
         $data = PegawaiModel::where('kode_unitkerja', $r->kode_unitkerja)
-            ->where('nama', 'LIKE', '%' . $r->query . '%')
+            ->where('nama', 'LIKE', '%' . $r->nama_query . '%')
             ->get();
     } else {
         $data = PegawaiModel::where('kode_unitkerja', $r->kode_unitkerja)

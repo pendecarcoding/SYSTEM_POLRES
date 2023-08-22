@@ -14,10 +14,13 @@ use App\AbsenModel;
 use App\PegawaiModel;
 use App\UserModel;
 use App\Cmenu;
+use App\LuarkantorModel;
 use DateTime;
 use DatePeriod;
 use DateInterval;
 use PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 class AbsensiCo extends Controller
 {
@@ -191,6 +194,55 @@ public function resetabsensi($id=null){
      return back()->with('success','Data berhasil direset');
   } catch (\Throwable $th) {
     return back()->with('danger',$th->getmessage());
+  }
+}
+public function absenluarkantor(Request $r){
+  $data = LuarkantorModel::all();
+  return view('theme.absensi.luarkantor',compact('data'));
+}
+public function absenmanualsave(Request $r){
+   $data =[
+    'nama_tempat'=>$r->tempat,
+    'start'=>$r->start,
+    'end'=>$r->end,
+    'latitude'=>$r->latitude,
+    'longitude'=>$r->longitude,
+    'radius'=>$r->radius,
+    'id_user'=>Session::get('id_user'),
+    'qr_code'=>Str::uuid()->toString(),
+   ];
+   try {
+     LuarKantorModel::insert($data);
+     return back()->with('success','Data berhasil disimpan');
+   } catch (\Throwable $th) {
+     return back()->with('danger',$th->getMessage());
+   }
+}
+
+public function absenmanualupdate(Request $r){
+  $data =[
+    'nama_tempat'=>$r->tempat,
+    'start'=>$r->start,
+    'end'=>$r->end,
+    'latitude'=>$r->latitude,
+    'longitude'=>$r->longitude,
+    'radius'=>$r->radius,
+    'id_user'=>Session::get('id_user'),
+    'qr_code'=>Str::uuid()->toString(),
+   ];
+   try {
+     LuarKantorModel::where('id_luarkantor',$r->id)->update($data);
+     return back()->with('success','Data berhasil diupdate');
+   } catch (\Throwable $th) {
+    return back()->with('danger',$th->getMessage());
+   }
+}
+public function hapusluarkantor($id){
+  try {
+    LuarKantorModel::where('id_luarkantor',base64_decode($id))->delete();
+    return back()->with('success','Data berhasil dihapus');
+  } catch (\Throwable $th) {
+    return back()->with('danger',$th->getMessage());
   }
 }
 public function absenmanual(Request $r){

@@ -67,7 +67,7 @@ if(Session::get('level')=='user'){
     <div class="col-md-6 col-lg-3">
       <div class="widget-small danger coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
         <div class="info">
-          <h4>Izin Lainnya</h4>
+          <h4>Izin Cuti</h4>
           <p><b>{{ $L }}</b></p>
         </div>
       </div>

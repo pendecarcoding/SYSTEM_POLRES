@@ -187,7 +187,7 @@ sup {
 }
 
 a {
-  color: #009688;
+  color: #076af3;
   text-decoration: none;
   background-color: transparent;
 }
@@ -2816,14 +2816,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #009688;
-  border-color: #009688;
+  background-color: #076af3;
+  border-color: #076af3;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #007065;
-  border-color: #00635a;
+  background-color: #076af3;
+  border-color: #076af3;
 }
 
 .btn-primary:focus,
@@ -5578,8 +5578,8 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 1;
   color: #fff;
-  background-color: #009688;
-  border-color: #009688;
+  background-color: #0969f3;
+  border-color: #0969f3;
 }
 
 .page-item.disabled .page-link {
@@ -15430,7 +15430,7 @@ be a descendant of the grid when it is being dragged.
 
 ::selection {
   color: #fff;
-  background-color: #00635a;
+  background-color: #0969f3;
 }
 
 @media (min-width: 768px) {
@@ -16495,7 +16495,7 @@ be a descendant of the grid when it is being dragged.
 
 .material-half-bg {
   height: 100vh;
-  background-color: #e7e7e7;
+  background-color: #0967ef;
   position: fixed;
   top: 0;
   left: 0;
@@ -16505,7 +16505,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .material-half-bg .cover {
-  background-color: #009688;
+  background-color: #0969f3;
   height: 50vh;
 }
 
@@ -16687,7 +16687,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small.primary.coloured-icon .icon {
-  background-color: #009688;
+  background-color: #076af3;
   color: #fff;
 }
 

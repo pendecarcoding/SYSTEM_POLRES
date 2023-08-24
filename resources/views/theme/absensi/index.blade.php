@@ -12,7 +12,7 @@ use App\AbsenModel;
 
  $data_a = AbsenModel::where('id_absen',$_GET['view'])->first();
  $kantor = (object)$class->datamarker($data_a->kode_unitkerja);
- $pegawai = $class->getpegawaifromiduser($data_a->id_pegawai);
+ $pegawai = $class->getpegawaifromidusers($data_a->id_pegawai);
  @endphp
  <main class="app-content">
   <div class="app-title">
@@ -26,7 +26,35 @@ use App\AbsenModel;
     </ul>
   </div>
  
+@if($data_a->status=='C')
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div style="display:flex;flex-direction:row;gap:20px;">
+           <div style="display: flex;flex-direction:column">
+            <p>Nama:</p>
+            <p>{{ $pegawai->nama }}</p>
+           </div>
+           <div style="display: flex;flex-direction:column">
+            <p>Keterangan:</p>
+            <p>{{ $data_a->keterangan }}</p>
+           </div>
+           
+        </div>
+      </div>
+      <div class="card-body">
+        <?php
+        $url = 'https://absensi.bengkaliskab.go.id';
+        ?>
+        <iframe src="{{ $url.'/uploads/'.$data_a->file }}" width="100%" height="500"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
 
+
+@elseif($data_a->status!=='C' || $data_a->status!=='P' || $data_a->status!=='D')
 <div class="row">
 <div class="col-7">
   <div class="card">
@@ -134,6 +162,8 @@ use App\AbsenModel;
   </div>
 </div>
 </div>
+
+@endif
 
 
 
@@ -313,7 +343,6 @@ use App\AbsenModel;
       </div>
       <a data-toggle="modal" data-target="#cetak" style="float:right;color:white" class="btn btn-primary"><i class="fa fa-print"></i> Cetak data</a>
       <select id="jenisabsen" class="form-control" style="width:20%;float:right;margin-right:2px;" name="jenis">
-        <option>--Jenis Absensi--</option>
         <option value="M">Masuk</option>
         <option value="P">Pulang</option>
       </select>

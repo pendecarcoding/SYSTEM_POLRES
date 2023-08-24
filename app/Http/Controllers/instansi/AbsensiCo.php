@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\instansi;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\InstansiModel;
@@ -14,10 +15,13 @@ use App\AbsenModel;
 use App\PegawaiModel;
 use App\UserModel;
 use App\Cmenu;
+use App\LuarkantorModel;
 use DateTime;
 use DatePeriod;
 use DateInterval;
 use PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 class AbsensiCo extends Controller
 {
@@ -193,11 +197,68 @@ public function resetabsensi($id=null){
     return back()->with('danger',$th->getmessage());
   }
 }
+public function absenluarkantor(Request $r){
+  $data = LuarkantorModel::all();
+  return view('theme.absensi.luarkantor',compact('data'));
+}
+public function absenmanualsave(Request $r){
+  $publicKeyContents = Storage::get('encription/public_key.pem');
+  $publicKey = openssl_pkey_get_public($publicKeyContents);
+  $data =[
+    'nama_tempat'=>$r->tempat,
+    'start'=>$r->start,
+    'end'=>$r->end,
+    'latitude'=>$r->latitude,
+    'longitude'=>$r->longitude,
+    'radius'=>$r->radius,
+    'id_user'=>Session::get('id_user'),
+    'qr_code'=>$encryptedData,
+   ];
+  if (openssl_public_encrypt($data, $encrypted, $publicKey)) {
+    $encryptedData = base64_encode($encrypted);
+     try {
+       LuarKantorModel::insert($data);
+       return back()->with('success','Data berhasil disimpan');
+     } catch (\Throwable $th) {
+       return back()->with('danger',$th->getMessage());
+     }
+  }else{
+      
+  }
+   
+}
+
+public function absenmanualupdate(Request $r){
+  $data =[
+    'nama_tempat'=>$r->tempat,
+    'start'=>$r->start,
+    'end'=>$r->end,
+    'latitude'=>$r->latitude,
+    'longitude'=>$r->longitude,
+    'radius'=>$r->radius,
+    'id_user'=>Session::get('id_user'),
+    'qr_code'=>Str::uuid()->toString(),
+   ];
+   try {
+     LuarKantorModel::where('id_luarkantor',$r->id)->update($data);
+     return back()->with('success','Data berhasil diupdate');
+   } catch (\Throwable $th) {
+    return back()->with('danger',$th->getMessage());
+   }
+}
+public function hapusluarkantor($id){
+  try {
+    LuarKantorModel::where('id_luarkantor',base64_decode($id))->delete();
+    return back()->with('success','Data berhasil dihapus');
+  } catch (\Throwable $th) {
+    return back()->with('danger',$th->getMessage());
+  }
+}
 public function absenmanual(Request $r){
    $checkuser = UserModel::where('id_pegawai',$r->id)->count();
    if($checkuser > 0){
     $user = UserModel::where('id_pegawai',$r->id)->first();
-    $keterangan = ($r->status=='A')?'Tanpa Keterangan':'Hadir';
+    $keterangan = ($r->status=='A')?'Tanpa Keterangan':'Hadir (ABSEN MANUAL)';
     $keterangan = ($r->status=='C')?'Cuti':$keterangan;
     $keterangan = ($r->status=='S')?'Sakit':$keterangan;
     $keterangan = ($r->status=='P')?'Pendidikan':$keterangan;

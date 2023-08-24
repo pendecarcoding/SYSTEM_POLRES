@@ -16,6 +16,8 @@ use App\AbsenModel;
 use App\RouteModel;
 use App\KordinatModel;
 use App\TblCuti;
+use App\TblDinas;
+use App\LuarkantorModel;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -215,21 +217,70 @@ public function apiandro($key=null,$url=null,Request $r){
   }
 }
 
-
-public function getemployee(Request $r){
+public function getoutlocation(Request $r){
   try {
-    $data = PegawaiModel::where('kode_unitkerja',$r->kode_unitkerja)
-            ->where('id','!=',$r->id)
-            ->get();
-    $d=[
-      'message'=>'1',
-      'data'=>$data
-    ];
-    print json_encode($d);
-    
+    $data = LuarkantorModel::where('qr_code',$r->qr_code)->count();
+    if($data > 0){
+      $data = LuarkantorModel::where('qr_code',$r->qr_code)->first();
+      $currentTime = time(); // Waktu saat ini dalam UNIX timestamp
+      $start = strtotime($data->start); // Konversi datetime start ke UNIX timestamp
+      $end = strtotime($data->end); // Konversi datetime end ke UNIX timestamp
+
+      if ($currentTime >= $start && $currentTime <= $end) {
+          $status = "BISA ABSEN";
+          $json = [
+            'status'=>$status,
+            'tempat'=>$data->nama_tempat,
+            'start'=>$data->start,
+            'end'=>$data->end,
+            'qr_code'=>$data->qr_code,
+          ];
+          print json_encode($json);
+
+      } else {
+          $status = "WAKTU HABIS";
+          $json = [
+            'status'=>$status,
+            'tempat'=>$data->nama_tempat,
+            'start'=>$data->start,
+            'end'=>$data->end,
+            'qr_code'=>$data->qr_code,
+          ];
+          print json_encode($json);
+      }
+    }
   } catch (\Throwable $th) {
     //throw $th;
   }
+}
+
+public function getemployee(Request $r){
+  try {
+    if ($r->nama_query != '') {
+        $data = PegawaiModel::where('kode_unitkerja', $r->kode_unitkerja)
+            ->where('nama', 'LIKE', '%' . $r->nama_query . '%')
+            ->get();
+    } else {
+        $data = PegawaiModel::where('kode_unitkerja', $r->kode_unitkerja)
+            ->where('id', '!=', $r->id)
+            ->get();
+    }
+
+    $response = [
+        'message' => '1',
+        'data' => $data
+    ];
+
+    // Return the JSON response
+    return response()->json($response);
+} catch (\Throwable $th) {
+    // Handle the exception
+    return response()->json([
+        'message' => 'An error occurred',
+        'error' => $th->getMessage()
+    ], 500); // Use an appropriate HTTP status code
+}
+
 }
 
 public function login(Request $r){
@@ -244,11 +295,11 @@ public function login(Request $r){
     if($dayTerm=='Morning'){
     $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Masuk')->first();
     $checkabsen = AbsenModel::where('id_pegawai',$data->id_pegawai)->where('kode_unitkerja',$data->kode_unitkerja)->where('tglabsen',date('Y-m-d'))->where('jenis','M')->count();
-    $checkabsen = ($checkabsen > 0) ? "no":"yes";
+    $checkabsen = ($jam == null) ? "no":"yes";
   }else if($dayTerm=='Afternoon'){
     $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Pulang')->first();
     $checkabsen = AbsenModel::where('id_pegawai',$data->id_pegawai)->where('kode_unitkerja',$data->kode_unitkerja)->where('tglabsen',date('Y-m-d'))->where('jenis','P')->count();
-    $checkabsen = ($checkabsen > 0) ? "no":"yes";
+    $checkabsen = ($jam == null) ? "no":"yes";
     }else{
       $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Pulang')->first();
       $checkabsen = "no";
@@ -259,7 +310,7 @@ public function login(Request $r){
       'message'=>'1',
       'data'=>$data,
       'kantor'=>$lokasikantor,
-      'jam'=>($jam != null) ? $jam:$j=['jam'=>$jam->jam,'batas'=>$jam->batas],
+      'jam'=>($jam != null) ? $jam:$j=['jam'=>'--:--','batas'=>'--:--'],
       'bisaabsen'=>$checkabsen,
       'listabsen'=>$absen
     ]);
@@ -300,6 +351,55 @@ public function updatesandi(Request $r){
       'message'=>'Akun tidak tersedia',
     ]);
   }
+}
+
+
+function adddinas(Request $request){
+  if ($request->hasFile('file')) {
+    // Handle file upload as before
+
+    // Handle additional data if needed
+    $id = $request->input('id');
+    $dari = $request->input('dari');
+    $sampai = $request->input('sampai');
+    $alasan = $request->input('alasan');
+    $nospt  = $request->input('nospt');
+    $rentang= $dari.' s/d '.$sampai;
+
+    $class = new Cmenu();
+    $pg    = $class->getpegawai($id);
+
+    try {
+      $file = $request->file('file');
+      $filename = $file->getClientOriginalName();
+      
+      $data=[
+        'rentang_absen'=>$rentang,
+        'alasan'=>$alasan,
+        'id_instansi'=>$pg->kode_unitkerja,
+        'file'=>$filename,
+        'nospt'=>$nospt,
+        'id_pegawai'=>$id,
+        'status'=>'A',
+      ];
+      try {
+        TblDinas::insert($data);
+        $file->move(public_path('uploads/dinas'), $filename);
+        return response()->json(['message' => 'File uploaded successfully']);
+      } catch (\Throwable $th) {
+        return response()->json(['message' => $th->getMessage()]);
+      }
+      
+    } catch (\Throwable $th) {
+      return response()->json(['message' => $th->getMessage()]);
+    }
+
+    // Return a success response or perform further actions
+    
+} else {
+    // Return an error response
+    return response()->json(['message' => 'No file provided'], 400);
+}
 }
 
 //CUTI
@@ -371,6 +471,46 @@ function getcuti($id,$idistansi){
   }
 }
 
+function getdinas($id,$idistansi){
+  try {
+    $data = TblDinas::where('id_pegawai',$id)
+    ->where('id_instansi',$idistansi)
+    ->orderBy('created_at','desc')
+    ->get();
+    $result=[
+      'message'=>'1',
+      'data'=>$data,
+    ];
+    print json_encode($result);
+  } catch (\Throwable $th) {
+    $result=[
+      'message'=>'0',
+      'data'=>null,
+    ];
+    print json_encode($result);
+  }
+}
+
+function deletedinas($id){
+  try {
+    $file = TblDinas::where('id',$id)->first();
+    if(file_exists(public_path('uploads/'.$file->file))){
+      unlink(public_path('uploads/'.$file->file));
+    }
+    TblDinas::where('id',$id)
+    ->delete();
+    $result=[
+      'message'=>'success',
+    ];
+    print json_encode($result);
+   }catch (\Throwable $th) {
+    $result=[
+      'message'=>$th->getMessage(),
+    ];
+    print json_encode($result);
+  }
+}
+
 function deletecuti($id){
   try {
     $file = TblCuti::where('id',$id)->first();
@@ -390,6 +530,86 @@ function deletecuti($id){
     print json_encode($result);
   }
 }
+
+function updatedinasnoimage(Request $request){
+  $id = $request->input('id');
+  $id_dinas = $request->input('id_dinas');
+  $nospt    = $request->input('nospt');
+  $dari = $request->input('dari');
+  $sampai = $request->input('sampai');
+  $alasan = $request->input('alasan');
+  $rentang= $dari.' s/d '.$sampai;
+try {
+  $data=[
+    'nospt'=>$nospt,
+    'rentang_absen'=>$rentang,
+    'alasan'=>$alasan,
+    'id_pegawai'=>$id,
+  ];
+  TblDinas::where('id',$id_dinas)->update($data);
+  $result=[
+    'message'=>'Update Berhasil',
+  ];
+  print json_encode($result);
+} catch (\Throwable $th) {
+  $result=[
+    'message'=>$th->getMessage(),
+  ];
+  print json_encode($result);
+}
+}
+
+function updatedinasimage(Request $request){
+  if ($request->hasFile('file')) {
+    // Handle file upload as before
+
+    // Handle additional data if needed
+    $id        = $request->input('id');
+    $id_dinas  = $request->input('id_dinas');
+    $dari      = $request->input('dari');
+    $sampai    = $request->input('sampai');
+    $alasan    = $request->input('alasan');
+    $nospt     = $request->input('nospt');
+    $rentang   = $dari.' s/d '.$sampai;
+    $class     = new Cmenu();
+    $pg        = $class->getpegawai($id);
+    $file      = TblDinas::where('id',$id_dinas)->first();
+    if(file_exists(public_path('uploads/'.$file->file))){
+      unlink(public_path('uploads/'.$file->file));
+    }
+    try {
+      $file = $request->file('file');
+      $filename = $file->getClientOriginalName();
+      
+      $data=[
+        'rentang_absen'=>$rentang,
+        'alasan'=>$alasan,
+        'nospt'=>$nospt,
+        'id_instansi'=>$pg->kode_unitkerja,
+        'file'=>$filename,
+        'id_pegawai'=>$id,
+        'status'=>'A',
+      ];
+      try {
+        TblDinas::where('id',$id_dinas)->update($data);
+        $file->move(public_path('uploads'), $filename);
+        return response()->json(['message' => 'File uploaded successfully']);
+      } catch (\Throwable $th) {
+        return response()->json(['message' => $th->getMessage()]);
+      }
+      
+    } catch (\Throwable $th) {
+      return response()->json(['message' => $th->getMessage()]);
+    }
+
+    // Return a success response or perform further actions
+    
+} else {
+    // Return an error response
+    return response()->json(['message' => 'No file provided'], 400);
+}
+}
+
 
 function updatecutiimage(Request $request){
   if ($request->hasFile('file')) {
@@ -620,13 +840,13 @@ public function getdatabyId(Request $r){
     if($dayTerm=='Morning'){
     $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Masuk')->first();
     $checkabsen = AbsenModel::where('id_pegawai',$r->id)->where('kode_unitkerja',$data->kode_unitkerja)->where('tglabsen',date('Y-m-d'))->where('jenis','M')->count();
-    $checkabsen = ($checkabsen > 0) ? "no":"yes";
+    $checkabsen = ($jam == null) ? "no":"yes";
   }else if($dayTerm=='Afternoon'){
     $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Pulang')->first();
     $checkabsen = AbsenModel::where('id_pegawai',$r->id)->where('kode_unitkerja',$data->kode_unitkerja)->where('tglabsen',date('Y-m-d'))->where('jenis','P')->count();
-    $checkabsen = ($checkabsen > 0) ? "no":"yes";
+    $checkabsen = ($jam == null) ? "no":"yes";
     }else{
-      $jam=null;
+      $jam = JamModel::where('hari',$hari)->where('kode_unitkerja',$data->kode_unitkerja)->where('jenis','Jam Pulang')->first();
       $checkabsen = "no";
     }
     $absen = AbsenModel::where('id_pegawai',$r->id)->where('kode_unitkerja',$data->kode_unitkerja)->orderby('time','DESC')->get();
@@ -666,6 +886,42 @@ public function getdataid($id){
     ]);
    }
 
+}
+
+
+public function getabsenbypegawai(Request $r){
+  try {
+    $result= array();
+      $user  = UserModel::where('id_pegawai',$r->id)->first();
+      $check = AbsenModel::where('id_pegawai',$user->id_user)
+      ->where('jenis',$r->jenis)
+                ->where('kode_unitkerja',$r->kode_unitkerja)
+                ->where('tglabsen',$r->tgl)
+               ->first();
+
+      if($check){
+        $result=[
+          'status'=>$check->status,
+          'latitude'=>$check->latitude,
+          'longitude'=>$check->longitude,
+          'waktuabsen'=>$check->time,
+          'keterangan'=>$check->keterangan,
+        ];
+        print json_encode($result);
+      }else{
+        //test
+        $result=[
+          'status'=>'',
+          'latitude'=>'',
+          'longitude'=>'',
+          'waktuabsen'=>'',
+          'keterangan'=>'',
+        ];
+        print json_encode($result);
+      }
+  } catch (\Throwable $th) {
+    print $th->getmessage();
+  }
 }
 
 

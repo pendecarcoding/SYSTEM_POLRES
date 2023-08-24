@@ -1,3 +1,15 @@
+<?php
+use App\Cmenu;
+use App\KordinatModel;
+
+$class = new Cmenu();
+$datamarker = KordinatModel::where('latitude','!=','')
+                ->where('longitude','!=','')
+                ->get();
+  $clatitude   = '1.583164915316166';
+  $clongitude  = '101.81656018345798';
+   $zoom = 9;
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -30,6 +42,7 @@
     
     <!--====== Style CSS ======-->
     <link rel="stylesheet" href="{{asset('frontend')}}/assets/css/style.css">
+    <script src="https://kit.fontawesome.com/ec6fd0ee66.js" crossorigin="anonymous"></script>
     
 </head>
 
@@ -82,8 +95,8 @@
                                 <li class="nav-item active"><a class="page-scroll" href="#home">home</a></li>
                                 <li class="nav-item"><a class="page-scroll" href="#services">Fitur Aplikasi</a></li>
                                 <li class="nav-item"><a class="page-scroll" href="#portfolio">Panduan Aplikasi</a></li>
-                                <li class="nav-item"><a class="page-scroll" href="#pricing">Pricing</a></li>
-                                <li class="nav-item"><a class="page-scroll" href="#about">About</a></li>
+                                {{-- <li class="nav-item"><a class="page-scroll" href="#pricing">Pricing</a></li>
+                                <li class="nav-item"><a class="page-scroll" href="#about">About</a></li> --}}
                                 <li class="nav-item"><a class="page-scroll" href="#contact">Titik Kordinat</a></li>
                             </ul>
                         </div>
@@ -120,7 +133,7 @@
                                     <h1 class="title">E-ABSENSI</h1>
                                     <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis. Sistem ini merupakan inovasi Pemerintah kabupaten bengkalis dalam melakukan ABSENSI di seluruh SKPD Kabupaten Bengkalis</p>
                                     <ul class="slider-btn rounded-buttons">
-                                        <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
+                                        {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
                                     </ul>
                                 </div>
@@ -139,10 +152,10 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">E-ABSENSI KABUPATEN BENGKALIS</h1>
-                                    <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
+                                    <h1 class="title">Fitur Geo Location</h1>
+                                    <p class="text">Dengan fitur ini untuk melakukan absensi menggunakan smartphone dan harus berada pada radius yang telah ditentukan berdasarkan kordinat kantor </p>
                                     <ul class="slider-btn rounded-buttons">
-                                        <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
+                                        {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
                                     </ul>
                                 </div> <!-- slider-content -->
@@ -161,10 +174,10 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="slider-content">
-                                    <h1 class="title">E-ABSENSI</h1>
-                                    <p class="text">Selamat datang di Sistem Aplikasi ABSENSI Online Kabupaten Bengkalis</p>
+                                    <h1 class="title">E-Cuti dan E-dinas</h1>
+                                    <p class="text">Tersedia fitur untuk pengajuan Cuti dan Izin Dinas dalam Sistem Pemerintahan</p>
                                     <ul class="slider-btn rounded-buttons">
-                                        <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li>
+                                        {{-- <li><a class="main-btn rounded-one" href="#">GET STARTED</a></li> --}}
                                         <li><a class="main-btn rounded-two" href="#">DOWNLOAD</a></li>
                                     </ul>
                                 </div> <!-- slider-content -->
@@ -197,8 +210,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-10">
                     <div class="section-title text-center pb-10">
-                        <h3 class="title">Our Services</h3>
-                        <p class="text">Stop wasting time and money designing and managing a website that doesn’t get results. Happiness guaranteed!</p>
+                        <h3 class="title">Fitur Aplikasi</h3>
+                        <p class="text">Adapun untuk fitur aplikasi pada Aplikasi ini berupa</p>
                     </div> <!-- row -->
                 </div>
             </div> <!-- row -->
@@ -206,45 +219,45 @@
                 <div class="col-lg-4 col-md-7 col-sm-9">
                     <div class="single-features mt-40">
                         <div class="features-title-icon d-flex justify-content-between">
-                            <h4 class="features-title"><a href="#">Graphics Design</a></h4>
+                            <h4 class="features-title"><a href="#">Absensi</a></h4>
                             <div class="features-icon">
-                                <i class="lni lni-brush"></i>
+                                <i class="lni lni-mobile"></i>
                                 <img class="shape" src="{{asset('frontend')}}/assets/images/f-shape-1.svg" alt="Shape">
                             </div>
                         </div>
                         <div class="features-content">
-                            <p class="text">Short description for the ones who look for something new. Short description for the ones who look for something new.</p>
-                            <a class="features-btn" href="#">LEARN MORE</a>
+                            <p class="text">Fitur ini digunakan untuk pembambilan absensi yang menggunakan titik titik lokasi radius. dimana pegawai hanya bisa melakukan absensi di lokasi yang sudah ditentukan titik lokasinya</p>
+                            <a class="features-btn" href="#"></a>
                         </div>
                     </div> <!-- single features -->
                 </div>
                 <div class="col-lg-4 col-md-7 col-sm-9">
                     <div class="single-features mt-40">
                         <div class="features-title-icon d-flex justify-content-between">
-                            <h4 class="features-title"><a href="#">Website Design</a></h4>
+                            <h4 class="features-title"><a href="#">Izini Dinas</a></h4>
                             <div class="features-icon">
-                                <i class="lni lni-layout"></i>
+                                <i class="lni lni-car"></i>
                                 <img class="shape" src="{{asset('frontend')}}/assets/images/f-shape-1.svg" alt="Shape">
                             </div>
                         </div>
                         <div class="features-content">
-                            <p class="text">Short description for the ones who look for something new. Short description for the ones who look for something new.</p>
-                            <a class="features-btn" href="#">LEARN MORE</a>
+                            <p class="text">Fitur ini digunakan untuk melakukan Izin dinas Pegawai. Pegawai untuk melakukan izin dinas mengupload bukti SPT dinas sebagai ke Aplikasi absensi</p>
+                            <a class="features-btn" href="#"></a>
                         </div>
                     </div> <!-- single features -->
                 </div>
                 <div class="col-lg-4 col-md-7 col-sm-9">
                     <div class="single-features mt-40">
                         <div class="features-title-icon d-flex justify-content-between">
-                            <h4 class="features-title"><a href="#">Digital Marketing</a></h4>
+                            <h4 class="features-title"><a href="#">Izin Cuti</a></h4>
                             <div class="features-icon">
-                                <i class="lni lni-bolt"></i>
+                                <i class="lni lni-calendar"></i>
                                 <img class="shape" src="{{asset('frontend')}}/assets/images/f-shape-1.svg" alt="Shape">
                             </div>
                         </div>
                         <div class="features-content">
                             <p class="text">Short description for the ones who look for something new. Short description for the ones who look for something new.</p>
-                            <a class="features-btn" href="#">LEARN MORE</a>
+                            <a class="features-btn" href="#"></a>
                         </div>
                     </div> <!-- single features -->
                 </div>
@@ -261,10 +274,10 @@
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="section-title text-center pb-10">
-                        <h3 class="title">You are using free lite version</h3>
-                        <p class="text">Please, purchase full version to get all pages and features</p>
+                        <h3 class="title">Panduan Penggunaan Aplikasi</h3>
+                        <p class="text">untuk penduan penggunaan Aplikasi anda dapat melihatnya dibawah ini</p>
                         <div class="light-rounded-buttons mt-30">
-                        <a href="https://rebrand.ly/smash-ud" rel="nofollow" class="main-btn light-rounded-two">Purchase Now</a>
+                        <iframe src="https://ppkl.menlhk.go.id/website/filebox/592/190408165734um_lhk_ditppa_file_management_2018_v01.pdf" style="width:100%;height:500px" frameborder="0"></iframe>
                         </div>
                     </div> <!-- section title -->
                 </div>
@@ -276,7 +289,7 @@
     
     <!--====== PRINICNG START ======-->
 
-    <section id="pricing" class="pricing-area ">
+    {{-- <section id="pricing" class="pricing-area ">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-10">
@@ -365,7 +378,7 @@
                         <a href="https://rebrand.ly/smash-ud" rel="nofollow" class="main-btn light-rounded-two">Purchase Now</a>
                         </div>
                     </div> <!-- section title -->
-    </section>
+    </section> --}}
 
     <!--====== ABOUT PART ENDS ======-->
     
@@ -384,13 +397,142 @@
                 </div>
             </div> <!-- row -->
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="contact-map mt-30">
-                        <iframe id="gmap_canvas" src="https://maps.google.com/maps?q=Mission%20District%2C%20San%20Francisco%2C%20CA%2C%20USA&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                    </div> <!-- row -->
-                </div>
+                <div class="col-md-12">
+                    <div class="tile">
+                     
+              
+                        <div class="peta" id="peta" style="margin-top:2px;width:100%;height:500px;"></div>
+              
+                        <script>
+                        function initAutocomplete() {
+                        var map = new google.maps.Map(document.getElementById('peta'), {
+                        center: {lat: {{$clatitude}}, lng: {{$clongitude}}},
+                        zoom: {{$zoom}},
+                        mapTypeId: 'terrain'
+              
+                        });
+              
+                        // Create the search box and link it to the UI element.
+                        var input = document.getElementById('pac-input');
+                        var searchBox = new google.maps.places.SearchBox(input);
+                        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+              
+                        // Bias the SearchBox results towards current map's viewport.
+                        map.addListener('bounds_changed', function() {
+                        searchBox.setBounds(map.getBounds());
+              
+                        });
+              
+                        var markers = [];
+                        // Listen for the event fired when the user selects a prediction and retrieve
+                        // more details for that place.
+                        searchBox.addListener('places_changed', function() {
+                        var places = searchBox.getPlaces();
+              
+                        if (places.length == 0) {
+                        return;
+                        }
+              
+                        // Clear out the old markers.
+                        markers.forEach(function(marker) {
+                        marker.setMap(null);
+                        });
+                        markers = [];
+              
+                        // For each place, get the icon, name and location.
+                        var bounds = new google.maps.LatLngBounds();
+                        places.forEach(function(place) {
+                        if (!place.geometry) {
+                          console.log("Returned place contains no geometry");
+                          return;
+                        }
+                        var icon = {
+                          url: place.icon,
+                          size: new google.maps.Size(71, 71),
+                          origin: new google.maps.Point(0, 0),
+                          anchor: new google.maps.Point(17, 34),
+                          scaledSize: new google.maps.Size(25, 25)
+                        };
+              
+                        // Create a marker for each place.
+                        markers.push(new google.maps.Marker({
+                          map: map,
+                          icon: icon,
+                          title: place.name,
+                          position: place.geometry.location
+                        }));
+              
+                        if (place.geometry.viewport) {
+                          // Only geocodes have viewport.
+                          bounds.union(place.geometry.viewport);
+                        } else {
+                          bounds.extend(place.geometry.location);
+                        }
+                        });
+                        map.fitBounds(bounds);
+                        });
+                        var locations = [
+              
+                        @foreach($datamarker as $key => $v)
+                        <?php
+                        $instansi = $class->namainstansi($v->kode_unitkerja);
+                        ?>
+                        ['<h4><b style="color:red;">{{$instansi->nama_unitkerja}}</b></h4><hr><br><b>Kode Unitkerja </b>: </b> {{$v->kode_unitkerja}}<br><b>Kecamatan</b> : {{$instansi->kecamatan}}<br><b>Alamat</b> : {{$instansi->alamat}}<br><b>Radius</b> : <b style="color:red;">{{$v->radius}} meter</b><br><b>Latitude </b> : <b style="color:#ffae00;">{{$v->latitude}}</b><br><b>Longitude</b> : <b style="color:#ffae00;">{{$v->longitude}}</b>', {{$v->latitude}}, {{$v->longitude}},{{$v->radius}}],
+                        @endforeach
+              
+                        ];
+              
+              
+              
+              
+                        var infowindow = new google.maps.InfoWindow();
+              
+              
+                        //
+              
+                        var marker, i,circle;
+                        /* kode untuk menampilkan banyak marker */
+                        for (i = 0; i < locations.length; i++) {
+                        marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map,
+              
+              
+                        // icon: "https://bengkaliskab.go.id/gis/images/building.png"
+              
+              
+                        });
+              
+                        circle = new google.maps.Circle({
+                        map: map,
+                        radius: locations[i][3],    // 10 miles in metres
+                        fillColor: '#b6e7bacc'
+                        });
+              
+                        circle.bindTo('center', marker, 'position');
+              
+                        /* menambahkan event clik untuk menampikan
+                        infowindows dengan isi sesuai denga
+                        marker yang di klik */
+              
+                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                        infowindow.setContent(locations[i][0]);
+                        infowindow.open(map, marker);
+                        }
+                        })(marker, i));
+                        }
+              
+                        }
+              
+                        </script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwxUvl3u_d_3fdomak3SKTITmJqQaDXak&libraries=places&callback=initAutocomplete"
+                        async defer></script>
+              
+                    </div>
+                  </div>
             </div> <!-- row -->
-            <div class="contact-info pt-30">
+            {{-- <div class="contact-info pt-30">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="single-contact-info contact-color-1 mt-30 d-flex ">
@@ -470,7 +612,7 @@
                         </form>
                     </div> <!-- contact wrapper form -->
                 </div>
-            </div> <!-- row -->
+            </div> <!-- row --> --}}
         </div> <!-- container -->
     </section>
 
@@ -478,30 +620,144 @@
     
     <!--====== FOOTER PART START ======-->
 
-    <section class="footer-area footer-dark">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="footer-logo text-center">
-                        <a class="mt-30" href="index.html"><img src="{{asset('frontend')}}/assets/images/logo.png" alt="Logo"></a>
-                    </div> <!-- footer logo -->
-                    <ul class="social text-center mt-60">
-                        <li><a href="https://facebook.com/uideckHQ"><i class="lni lni-facebook-filled"></i></a></li>
-                        <li><a href="https://twitter.com/uideckHQ"><i class="lni lni-twitter-original"></i></a></li>
-                        <li><a href="https://instagram.com/uideckHQ"><i class="lni lni-instagram-original"></i></a></li>
-                        <li><a href="#"><i class="lni lni-linkedin-original"></i></a></li>
-                    </ul> <!-- social -->
-                    <div class="footer-support text-center">
-                        <span class="number">+8801234567890</span>
-                        <span class="mail">support@uideck.com</span>
-                    </div>
-                    <div class="copyright text-center mt-35">
-                        <p class="text">Designed by <a href="https://uideck.com" rel="nofollow">UIdeck</a> and Built-with <a rel="nofollow" href="https://ayroui.com">Ayro UI</a> </p>
-                    </div> <!--  copyright -->
-                </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
-    </section>
+    <footer
+    class="text-center text-lg-start text-white"
+    style="background-color: #1c2331"
+    >
+<!-- Section: Social media -->
+<section
+       class="d-flex justify-content-between p-4"
+       style="background-color: #0266f4;"
+       >
+<!-- Left -->
+<div class="me-5">
+  <span>Terhubung dengan kami di jejaring sosial:</span>
+</div>
+<!-- Left -->
+
+<!-- Right -->
+<div style="display: flex;
+    justify-content: space-between;
+    gap: 38px;
+    flex-direction: row;">
+  <a href="" class="text-white me-4">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-twitter"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-google"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-linkedin"></i>
+  </a>
+  <a href="" class="text-white me-4">
+    <i class="fab fa-github"></i>
+  </a>
+</div>
+<!-- Right -->
+</section>
+<!-- Section: Social media -->
+
+<!-- Section: Links  -->
+<section class="">
+<div class="container text-center text-md-start mt-5">
+  <!-- Grid row -->
+  <div class="row mt-3">
+    <!-- Grid column -->
+    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+      <!-- Content -->
+      <h6 class="text-uppercase fw-bold" style="color:white;text-align:left">Badan Kepegawaian, Pendidikan Dan Pelatihan Kabupaten Bengkalis</h6>
+      <hr
+          class="mb-4 mt-0 d-inline-block mx-auto"
+          style="width: 60px; background-color: #7c4dff; height: 2px"
+          />
+      <p style="text-align:left;color:white">Alamat : F4FF+8H9, Jl. Antara, Senggoro, Kec. Bengkalis, Kabupaten Bengkalis, Riau 28711</p>
+      <p style="text-align:left;color:white">Email : bkpp@bengkaliskab.go.id</p>
+      <p style="text-align:left;color:white">Telp : (0766) 21072</p>
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div style="text-align: left;"class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+      <!-- Links -->
+      <h6 style="text-align:left;color:white" class="text-uppercase fw-bold">APLIKASI KEPEGAWAIAN</h6>
+      <hr
+          class="mb-4 mt-0 d-inline-block mx-auto"
+          style="width: 60px; background-color: #7c4dff; height: 2px"
+          />
+      <p>
+        <a style="color:white;text-align:left" href="https://siasn.bkn.go.id/" class="text-white">SI ASN</a>
+      </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://mysapk.bkn.go.id/" class="text-white">My SAPK</a>
+      </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://simpegnas.bkn.go.id/" class="text-white">SIMPEGNAS</a>
+      </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://pinka.bengkaliskab.go.id" class="text-white">PINKA</a>
+      </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://kinerja.bkn.go.id/login" class="text-white">E-KINERJA</a>
+      </p>
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div style="text-align: left;"class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+      <!-- Links -->
+      <h6 style="text-align:left;color:white" class="text-uppercase fw-bold">INFORMASI BENGKALIS</h6>
+      <hr
+          class="mb-4 mt-0 d-inline-block mx-auto"
+          style="width: 60px; background-color: #7c4dff; height: 2px"
+          />
+      <p>
+        <a style="color:white;text-align:left" href="https://diskominfotik.bengkaliskab.go.id/" class="text-white">DISKOMINFOTIK</a>
+      </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://humas.bengkaliskab.go.id/" class="text-white">HUMAS</a>
+      </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://bkpp.bengkaliskab.go.id/" class="text-white">BKPP</a>
+      </p>
+      <p>
+        <a style="color:white;text-align:left" href="https://cctv.bengkaliskab.go.id" class="text-white">CCTV</a>
+      </p>
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+      <!-- Links -->
+      <h6 style="color:white" class="text-uppercase fw-bold" style="color:white;">Downlad</h6>
+      <div style="margin-top:20px">
+        <img src="/public/frontend/assets/images/playstoredownload.png" alt="">
+      </div>
+    </div>
+    <!-- Grid column -->
+  </div>
+  <!-- Grid row -->
+</div>
+</section>
+<!-- Section: Links  -->
+
+<!-- Copyright -->
+<div
+   class="text-center p-3"
+   style="background-color: rgba(0, 0, 0, 0.2)"
+   >
+© 2020 Copyright:
+<a class="text-white" href="https://mdbootstrap.com/"
+   >MDBootstrap.com| Modify By Tim IT Dinas Komunikasi Informatika dan Statistik Kabupaten Bengkalis</a
+  >
+</div>
+<!-- Copyright -->
+</footer>
 
     <!--====== FOOTER PART ENDS ======-->
     

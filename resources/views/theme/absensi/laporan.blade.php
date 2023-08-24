@@ -12,7 +12,7 @@ use App\AbsenModel;
 
  $data_a = AbsenModel::where('id_absen',$_GET['view'])->first();
  $kantor = (object)$class->datamarker($data_a->kode_unitkerja);
- $pegawai = $class->getpegawaifromiduser($data_a->id_pegawai);
+ $pegawai = $class->getpegawaifromidusers($data_a->id_pegawai);
  @endphp
  <main class="app-content">
   <div class="app-title">
@@ -27,145 +27,146 @@ use App\AbsenModel;
   </div>
  
 
-<div class="row">
-<div class="col-7">
-  <div class="card">
-    <div class="card-header">
-     
-      <h4 class="card-title"><i class="fa fa-person"></i>{{$pegawai->gd.' '.$pegawai->nama.' '.$pegawai->gb}}</h4>
-
-
-      <h6 class="card-subtitle">
-        Data absensi ini di record berdasarkan record pegawai yang melakukan absensi
-      </h6>
-
-    </div>
-    <div class="card-body">
-      <div class="container">
-      <div class="row">
-        <div  class="col-md-6">
-          <label>Tgl Absen</label>
-          <input type="text" class="form-control" disabled value="{{$data_a->time}}">
-          <label>Status</label>
-          <input type="text" class="form-control" disabled value="{{$data_a->status}}">
-          <label>Jenis Absen</label>
-          <input type="text" class="form-control" disabled value="{{$data_a->jenis}}">
-
+  @if($data_a->status=='C')
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <a href="#" onclick="goBack()" style="float:right;color:white" class="btn btn-danger"><i class="fa fa-times"></i></a>
+          <div style="display:flex;flex-direction:row;gap:20px;">
+             <div style="display: flex;flex-direction:column">
+              <p>Nama:</p>
+              <p>{{ $pegawai->nama }}</p>
+             </div>
+             <div style="display: flex;flex-direction:column">
+              <p>Keterangan:</p>
+              <p>{{ $data_a->keterangan }}</p>
+             </div>
+             
+          </div>
+          
         </div>
-        <div  class="col-md-6">
-          <img class="responsive" src="/public/swafoto/{{$data_a->kode_unitkerja}}/{{$data_a->swafoto}}" alt="">
+        <div class="card-body">
+          <?php
+          $url = 'https://absensi.bengkaliskab.go.id';
+          ?>
+          <iframe src="{{ $url.'/uploads/'.$data_a->file }}" width="100%" height="500"></iframe>
         </div>
       </div>
     </div>
-     
-    </div>
-    <div class="card-footer">
-      <a data-toggle="modal" data-target="#koreksi" style="color:white" class="btn btn-primary"><i class="fa fa-edit"></i> Koreksi Absensi</a>
-    </div>
-
   </div>
-  <div id="koreksi" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-      <h4 class="modal-title">Koreksi Absensi ini</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+  
+  
+  @elseif($data_a->status!=='C' || $data_a->status!=='P' || $data_a->status!=='D')
+  <div class="row">
+  <div class="col-7">
+    <div class="card">
+      <div class="card-header">
+       
+        <h4 class="card-title"><i class="fa fa-person"></i>{{$pegawai->gd.' '.$pegawai->nama.' '.$pegawai->gb}}</h4>
+  
+  
+        <h6 class="card-subtitle">
+          Data absensi ini di record berdasarkan record pegawai yang melakukan absensi
+        </h6>
+  
       </div>
-      <form action="{{url('updateabsensi')}}" method="post">
-        <input type="hidden" name="id" value="{{$data_a->id_absen}}">
-      <div class="modal-body">
-        <label for="">Update Status Absensi berdasarkan data</label>
-        <select name="aksi" class="form-control" required>
-          <option value="H">Terima Kehadiran</option>
-          <option value="A">Kehadiran tidak sesuai</option>
-        </select>
+      <div class="card-body">
+        <div class="container">
+        <div class="row">
+          <div  class="col-md-6">
+            <label>Tgl Absen</label>
+            <input type="text" class="form-control" disabled value="{{$data_a->time}}">
+            <label>Status</label>
+            <input type="text" class="form-control" disabled value="{{$data_a->keterangan}}">
+            <label>Jenis Absen</label>
+            <input type="text" class="form-control" disabled value="{{$data_a->jenis}}">
+  
+          </div>
+          <div  class="col-md-6">
+            <img class="responsive" src="/public/swafoto/{{$data_a->kode_unitkerja}}/{{$data_a->swafoto}}" alt="">
+          </div>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Update</button>
+       
       </div>
-      </form>
+      <div class="card-footer">
+        
+      </div>
+  
     </div>
-
   </div>
-</div>
-</div>
-
-<div class="col-5">
-  <div class="card">
-    <div class="card-header">
-     
-      <a href="#" onclick="goBack()" style="float:right;color:white" class="btn btn-danger"><i class="fa fa-times"></i></a>
-     
-      <h4 class="card-title"><i class="fa fa-person"></i>Lokasi Absensi</h4>
-
-
-      <h6 class="card-subtitle">
-        Lokasi ini berdasarkan dari rekaman smartphone pegawai bersangkutan
-      </h6>
-
-    </div>
-    <script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
-    <style>
-      #map {
-  height: 34vh;
-}
-
-    </style>
-    <div class="card-body">
-      <div class="container">
-        <div id="map"></div>
-
-       <!-- Include the Google Maps API script -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwxUvl3u_d_3fdomak3SKTITmJqQaDXak&callback=initMap" async defer></script>
-<!-- Replace YOUR_API_KEY with your actual Google Maps API key -->
-
-<script>
-  let map;
-
-  function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: {{$data_a->latitude}}, lng: {{$data_a->longitude}} },
-      zoom: 20,
-    });
-
-    // Create a marker at the specified coordinates
-    const marker = new google.maps.Marker({
-      position: { lat: {{$data_a->latitude}}, lng: {{$data_a->longitude}} },
-      map: map,
-      title: "Marker Title", // Replace with the desired title for the marker
-      // icon: 'path/to/custom_icon.png' // If you want to use a custom icon, specify the path here
-    });
-
-    const circle = new google.maps.Circle({
-      map: map,
-      center: { lat: {{$kantor->latitude}}, lng: {{$kantor->longitude}} },
-      radius: {{$kantor->radius}}, // Replace with the desired radius in meters
-      strokeColor: "#FF0000", // Circle border color (red in this example)
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: "#FF0000", // Circle fill color (red in this example)
-      fillOpacity: 0.35,
-    });
+  
+  <div class="col-5">
+    <div class="card">
+      <div class="card-header">
+       
+        <a href="#" onclick="goBack()" style="float:right;color:white" class="btn btn-danger"><i class="fa fa-times"></i></a>
+       
+        <h4 class="card-title"><i class="fa fa-person"></i>Lokasi Absensi</h4>
+  
+  
+        <h6 class="card-subtitle">
+          Lokasi ini berdasarkan dari rekaman smartphone pegawai bersangkutan
+        </h6>
+  
+      </div>
+      <style>
+        #map {
+    height: 34vh;
   }
-</script>
-
+  
+      </style>
+      <div class="card-body">
+        <div class="container">
+          <div id="map"></div>
+  
+         <!-- Include the Google Maps API script -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwxUvl3u_d_3fdomak3SKTITmJqQaDXak&callback=initMap" async defer></script>
+  <!-- Replace YOUR_API_KEY with your actual Google Maps API key -->
+  
+  <script>
+    let map;
+  
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: {{$data_a->latitude}}, lng: {{$data_a->longitude}} },
+        zoom: 20,
+      });
+  
+      // Create a marker at the specified coordinates
+      const marker = new google.maps.Marker({
+        position: { lat: {{$data_a->latitude}}, lng: {{$data_a->longitude}} },
+        map: map,
+        title: "Marker Title", // Replace with the desired title for the marker
+        // icon: 'path/to/custom_icon.png' // If you want to use a custom icon, specify the path here
+      });
+  
+      const circle = new google.maps.Circle({
+        map: map,
+        center: { lat: {{$kantor->latitude}}, lng: {{$kantor->longitude}} },
+        radius: {{$kantor->radius}}, // Replace with the desired radius in meters
+        strokeColor: "#FF0000", // Circle border color (red in this example)
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#FF0000", // Circle fill color (red in this example)
+        fillOpacity: 0.35,
+      });
+    }
+  </script>
+  
+      </div>
+       
+      </div>
+      <div class="card-footer">
+        
+      </div>
+  
     </div>
-     
-    </div>
-    <div class="card-footer">
-      
-    </div>
-
   </div>
-</div>
-</div>
-
+  </div>
+  
+  @endif
 
 
 </main>
@@ -201,6 +202,13 @@ use App\AbsenModel;
             </div>
             <form action="{{url('cetakabsensi')}}" method="post">
             <div class="modal-body">
+              <label>Pilih Perangkat Daerah</label>
+              <select  class="form-control""
+                            name="skpd">
+                            @foreach($skpd as $i =>$v)
+                            <option value="{{$v->kode_unitkerja}}">{{$v->nama_unitkerja}}</option>
+                            @endforeach
+                        </select>
               <p>Tentukan tanggal Periode Cetak</p>
               <div style="display: flex; flex-direction: row;">
                 <input type="date" name="from" class="form-control" required>
@@ -273,7 +281,31 @@ use App\AbsenModel;
 
 
 </main>
+<script>
+  function reset(id) {
 
+    swal({
+        title: "Anda yakin mereset absensi ini ??",
+        text: "Status absensi akan tereset dan data yang di rekam sebelumnya akan hilang. penting untuk melakukan aksi selanjutnya agar tidak menjadi status tanpa keterangan / Alpha",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ya, Reset!",
+        closeOnConfirm: false
+      },
+      function () {
+        swal("Aksi reset dilakukan!", "", "success")
+        window.location = '{{ url("resetabsensi") }}/' + id;
+
+      }
+
+
+
+    );
+
+    }
+    </script>
+ 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function () {
@@ -432,9 +464,9 @@ use App\AbsenModel;
 
   $('#skpd').change(function() {
     
-		var jenis = $(this).val();
+		var jenis = document.getElementById('jenisabsen').value;
     var tgl   = document.getElementById('tgl').value;
-    var skpd = document.getElementById('skpd').value;
+    var skpd = $(this).val();
     var table = document.getElementById('tableabsen');
 		$('#tableabsen').DataTable({
           destroy: true,

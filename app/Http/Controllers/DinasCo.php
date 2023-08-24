@@ -2,28 +2,28 @@
       namespace App\Http\Controllers;
       use Illuminate\Http\Request;
       use App\InstansiModel;
+      use App\TblDinas;
       use DataTables;
       use Session;
-      use App\TblCuti;
       use App\Cmenu;
-      use App\AbsenModel;
       use App\UserModel;
+      use App\AbsenModel;
       use Intervention\Image\ImageManagerStatic as Image;
-      class CutiCo extends Controller
+      class DinasCo extends Controller
       {
         public function __construct()
       {
 
       }
 
-      public function updateaksicuti(Request $r){
+      public function updateaksidinas(Request $r){
         try {
           if($r->filled('aksi')){
             $data = [
               'status'=>$r->aksi
             ];
             if($r->aksi=='Y'){
-              $cuti          = TblCuti::where('id',$r->id)->first();
+              $cuti          = TblDinas::where('id',$r->id)->first();
               $user          = UserModel::where('id_pegawai',$cuti->id_pegawai)->first();
               $date_parts    = explode(" s/d ", $cuti->rentang_absen);
               $tanggal_awal  = $date_parts[0];
@@ -36,14 +36,14 @@
                 $absen=[
                   'id_absen'=>uniqid(),
                   'id_pegawai'=>$user->id_user,
-                  'status'=>'C',
+                  'status'=>'D',
                   'keterangan'=>$cuti->alasan,
                   'jenis'=>'M',
                   'kode_unitkerja'=>$cuti->id_instansi,
                   'no_surat'=>null,
                   'latitude'=>'-',
                   'longitude'=>'-',
-                  'swafoto'=>'cuti.png',
+                  'swafoto'=>'dinas.png',
                   'ip'=>'',
                   'tglabsen'=>$tanggal,
                   'file'=>$cuti->file,
@@ -53,7 +53,7 @@
                 $absen=[
                   'id_absen'=>uniqid(),
                   'id_pegawai'=>$user->id_user,
-                  'status'=>'C',
+                  'status'=>'D',
                   'keterangan'=>$cuti->alasan,
                   'jenis'=>'P',
                   'kode_unitkerja'=>$cuti->id_instansi,
@@ -68,7 +68,7 @@
                 ];
                 AbsenModel::insert($absen);
               }
-              TblCuti::where('id',$r->id)->update($data);
+              TblDinas::where('id',$r->id)->update($data);
               return back();
             }
             
@@ -76,7 +76,7 @@
             $data = [
               'status'=>'N'
             ];
-            $cuti          = TblCuti::where('id',$r->id)->first();
+            $cuti          = TblDinas::where('id',$r->id)->first();
             $user          = UserModel::where('id_pegawai',$cuti->id_pegawai)->first();
             $date_parts    = explode(" s/d ", $cuti->rentang_absen);
             $tanggal_awal  = $date_parts[0];
@@ -88,30 +88,45 @@
               $tanggal = date('Y-m-d', $timestamp);
               AbsenModel::where('id_pegawai',$user->id_user)->where('tglabsen',$tanggal)->delete();
             }
-            TblCuti::where('id',$r->id)->update($data);
+            TblDinas::where('id',$r->id)->update($data);
             return back();
           }
           
         } catch (\Throwable $th) {
-          //throw $th;
+          print $th->getmessage();
         }
       }
 
-      public function apiusulancuti(Request $r){
+      public function index(){
+        if(Session::get('level')=='user'){
+          $data = TblDinas::where('id_instansi',Session::get('kode_unitkerja'))->get();
+          return view('theme.usulan.dinas',compact('data'));
+        }
+          
+      }
+      public function pengajuandinas(Request $r){
+        $class       = new Cmenu();
+        $listintansi = (object) $class->listinstansi();
+        $skpd        = $listintansi;
+        return view('theme.dinas.index',compact('skpd'));
+      }
+      public function apiusulandinas(Request $r){
         $class       = new Cmenu();
         $array       = array();
-        $datacuti    = TblCuti::where('id_instansi',$r->skpd)->wheredate('created_at',$r->tanggal)->get();
+        $datacuti    = TblDinas::where('id_instansi',$r->skpd)->wheredate('created_at',$r->tanggal)->get();
         foreach ($datacuti as $i => $v){
        
             $pegawai = $class->getpegawaifromiduser($v->id_pegawai);
             $diterima = $v->status == 'Y' ? 'Disetujui' : 'Di batalkan';
             $status = $v->status == 'A' ? 'Menunggu Konfirmasi..' : $diterima;
             if ($pegawai != null) {
+              $range   = explode('s/d',$v->rentang_absen);
               $data = [
                   'no' => $i + 1,
                   'nama_pegawai' => ((empty($pegawai->gd) || $pegawai->gd == '-') ? '' : $pegawai->gd) . ' ' . $pegawai->nama . ' ' . $pegawai->gb,
-                  'jenis_cuti' => $v->jenis_cuti,
-                  'lama_cuti' => $v->rentang_absen,
+                  'no_spt' => $v->nospt,
+                  'awal_dinas' => $range[0],
+                  'akhir_dinas' => $range[1],
                   'tgl_pengajuan' => date('Y-m-d H:i:s', strtotime($v->created_at)),
                   'status' => $status,
                   'file' => '<a href="' . asset('uploads/' . $v->file) . '" target="popup" 
@@ -125,19 +140,19 @@
                           <!-- Modal content-->
                           <div class="modal-content">
                               <div class="modal-header">
-                                  <h4 class="modal-title">Ringkasan Pengajuan Cuti</h4>
+                                  <h4 class="modal-title">Ringkasan Izin Dinas</h4>
                                   <button type="button" class="close"
                                       data-dismiss="modal">&times;</button>
                               </div>
-                              <form action="' . url('updateaksicuti') . '" method="post">
+                              <form action="' . url('updateaksidinas') . '" method="post">
                               <input type="hidden" name="id" value="'.$v->id.'">
                               <div class="modal-body">
                                   <div style="display: flex;flex-direction:column">
                                       <p>Nama : '.$pegawai->nama.'</p>
                                       <p>NIP : '.$pegawai->nip.'</p>
-                                      <p>Jenis Cuti : '.$v->jenis_cuti.'</p>
-                                      <p>Alasan : '.$v->alasan.'</p>
-                                      <p>Rentang Cuti : '.$v->rentang_absen.'</p>
+                                      <p>NO SPT : '.$v->nospt.'</p>
+                                      <p>HAL : '.$v->alasan.'</p>
+                                      <p>Rentang Dinas : '.$v->rentang_absen.'</p>
                                       <p>Tanggal Pengajuan : '.$v->created_at.'</p>
                                       <p>Status Pengajuan : '.$status.'</p>
                                   </div>
@@ -172,30 +187,15 @@
         ];
         print json_encode($datajson);
      }
-
-      public function pengajuan(Request $r){
-        $class       = new Cmenu();
-        $listintansi = (object) $class->listinstansi();
-        $skpd        = $listintansi;
-        $datacuti    = TblCuti::all();
-        // @foreach ($datacuti as $i => $v)
-        // @php
-        //     $pegawai = $class->getpegawaifromiduser($v->id_pegawai);
-        //     $diterima = $v->status == 'Y' ? 'Disetujui' : 'Di batalkan';
-        //     $status = $v->status == 'A' ? 'Menunggu Konfirmasi..' : $diterima;
-        // @endphp
-        // @if ($pegawai != null)
-          return view('theme.cuti.index',compact('skpd','datacuti'));
-      }
       public function save(Request $r){
         $data =[
 
         ];
 
-        // $act = Jabatan::insert($data);
-        // if($act){
-        //   return back()->with();
-        // }
+        $act = "";
+        if($act){
+          return back()->with();
+        }
 
       }
       public function update(Request $r){
@@ -203,9 +203,9 @@
 
         ];
 
-        // $act = Jabatan::where(,$r->id)->update($data);
+        $act = "";
         // if($act){
-        //   return back()->with(,);
+        //   return back()->with("",);
         // }
 
       }

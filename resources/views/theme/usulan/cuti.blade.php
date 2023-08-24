@@ -9,7 +9,7 @@ $class = new Cmenu();
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-list"></i> Daftar Usulan Cuti Pegawai</h1>
+      <h1><i class="fa fa-list"></i> Daftar Usulan Cuti Anggota</h1>
       <p></p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
@@ -22,7 +22,7 @@ $class = new Cmenu();
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-         <h4 class="card-title">Daftar Usulan Cuti Pegawai</h4>
+         <h4 class="card-title">Daftar Usulan Cuti Anggota</h4>
         </div>
         <div class="card-body">
 
@@ -35,7 +35,7 @@ $class = new Cmenu();
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama Pegawai</th>
+                  <th>Nama Anggota</th>
                   <th>Jenis Cuti</th>
                   <th>Lama Cuti</th>
                   <th>Tgl Pengajuan</th>

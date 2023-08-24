@@ -4,7 +4,7 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-dashboard"></i> Data Pegawai</h1>
+      <h1><i class="fa fa-dashboard"></i> Data Anggota</h1>
       <p></p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
@@ -20,7 +20,7 @@
           <a data-toggle="modal" href="#tambah" data-target="#tambah" style="color:white;"
             class="btn waves-effect waves-light btn-primary pull-right"> <i class="fa fa-plus"></i> Tambah Data</a>
           <!--<a style="float: right;" class="btn btn-warning"><i class="fa fa-file-excel-o"></i> Import Data </a>
-          --><h4 class="card-title">Data Pegawai</h4>
+          --><h4 class="card-title">Data Anggota</h4>
         </div>
         <div class="card-body">
 
@@ -107,7 +107,7 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Tambah Data Pegawai</h4>
+          <h4 class="modal-title">Tambah Data Anggota</h4>
           <button type="button" class="close" data-dismiss="modal">×</button>
         </div>
 
@@ -158,7 +158,7 @@
             </div>
 
             <div class="form-group">
-              <label>NIP</label>
+              <label>NRP</label>
               <input type="text" class="form-control" name="nip" value="">
             </div>
             <div class="form-group">

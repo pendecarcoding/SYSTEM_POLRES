@@ -21,7 +21,7 @@ $class = new Cmenu();
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <a style="float:right;color:white" class="btn btn-primary">Tambah Data</a>
+          {{-- <a style="float:right;color:white" class="btn btn-primary">Tambah Data</a> --}}
          <h4 class="card-title">Daftar Izin Dinas</h4>
          
         </div>
@@ -33,7 +33,7 @@ $class = new Cmenu();
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama Pegawai</th>
+                  <th>Nama Anggota</th>
                   <th>NO SPT</th>
                   <th>Mulai Dinas</th>
                   <th>Akhir Dinas</th>
@@ -75,7 +75,7 @@ $class = new Cmenu();
                       <div class="modal-body">
                         <div style="display: flex;flex-direction:column">
                           <p>Nama : {{$pegawai->nama}}</p>
-                          <p>NIP  : {{$pegawai->nip}}</p>
+                          <p>NRP  : {{$pegawai->nip}}</p>
                           <p>NO SPT  : {{$v->nospt}}</p>
                           <p>HAL  : {{$v->alasan}}</p>
                           <p>Rentang Dinas  : {{$v->rentang_absen}}</p>

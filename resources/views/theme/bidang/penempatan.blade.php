@@ -26,7 +26,7 @@ $level = Level::all();
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Daftar Penempatan Pegawai
+          <h4 class="card-title">Daftar Penempatan Anggota
           </h4>
         </div>
         <div class="card-body">
@@ -37,7 +37,7 @@ $level = Level::all();
                   <div class="info">
                     <h6>{{ $v->bidang }}</h6>
                     <a href="{{ url('penempatan_jabatan?lihatpegawai='.base64_encode($v->id_bidang)) }}"
-                      class="btn btn-outline-secondary" style="color:black;margin-bottom:10px;"><b>Lihat Pegawai</b></a>
+                      class="btn btn-outline-secondary" style="color:black;margin-bottom:10px;"><b>Lihat Anggota</b></a>
                   </div>
                 </div>
               </div>
@@ -56,7 +56,7 @@ $level = Level::all();
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header" style="border-color:gren ">
-                  <h4 class="modal-title">Tambah Pegawai {{ $bidang->bidang }}</h4>
+                  <h4 class="modal-title">Tambah Anggota {{ $bidang->bidang }}</h4>
                   <button type="button" class="btn btn-danger" data-dismiss="modal">&times;</button>
 
 
@@ -64,7 +64,7 @@ $level = Level::all();
                 <form action="{{ url('addpenempatan') }}" method="POST">{{ csrf_field() }}
                 <div class="modal-body">
                     
-                     <label>Pilih Data Pegawai</label>
+                     <label>Pilih Data Anggota</label>
                     <select class="form-control" name="pegawai" >
                       @foreach($pegawai as $ip => $vp)
                       <option value="{{ $vp->id }}">{{ '('.$vp->nip.')'.$vp->gd.' '.$vp->nama.' '.$vp->gb }}</option>
@@ -72,7 +72,7 @@ $level = Level::all();
 
                     </select>
                     <input type="hidden" name="id_bidang" value="{{ $bidang->id_bidang }}">
-                    <label>Jabatan Pegawai</label>
+                    <label>Jabatan Anggota</label>
                     <select class="form-control" name="jabatan" required >
                       @foreach($jabatan as $ij => $vj)
                       <option value="{{ $vj->jabatan }}">{{ $vj->jabatan }}</option>
@@ -89,8 +89,8 @@ $level = Level::all();
           </div>
           <div class="card-header">
             <a data-toggle='modal' href="#tambah" data-target="#tambah" style="color:white;"
-              class="btn waves-effect waves-light btn-primary pull-right"><i class="fa fa-plus"></i> Tambah ASN</a>
-            <h4>Daftar Pegawai {{ $bidang->bidang }}</h4>
+              class="btn waves-effect waves-light btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Anggota</a>
+            <h4>Daftar Anggota {{ $bidang->bidang }}</h4>
 
           </div>
           <div class="card-body">
@@ -99,7 +99,7 @@ $level = Level::all();
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Pegawai</th>
+                    <th>Anggota</th>
                     <th>Jabatan</th>
                     <th>Bidang</th>
                     

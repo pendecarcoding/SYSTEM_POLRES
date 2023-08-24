@@ -3,7 +3,7 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Pegawai</h4>
+          <h4 class="modal-title">Update Data Anggota</h4>
           <button type="button" class="close" data-dismiss="modal">×</button>
         </div>
 
@@ -55,7 +55,7 @@
             </div>
 
             <div class="form-group">
-              <label>NIP</label>
+              <label>NRP</label>
               <input type="text" class="form-control" name="nip" value="{{ $v->nip }}">
             </div>
             <div class="form-group">

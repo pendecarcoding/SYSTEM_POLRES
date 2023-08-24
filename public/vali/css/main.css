@@ -187,7 +187,7 @@ sup {
 }
 
 a {
-  color: #076af3;
+  color: #f10410;
   text-decoration: none;
   background-color: transparent;
 }
@@ -2816,14 +2816,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #076af3;
-  border-color: #076af3;
+background-color: #f10410;
+border-color: #f10410;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #076af3;
-  border-color: #076af3;
+  background-color: #f10410;
+  border-color: #f10410;
 }
 
 .btn-primary:focus,
@@ -5577,9 +5577,9 @@ input[type="button"].btn-block {
 
 .page-item.active .page-link {
   z-index: 1;
-  color: #fff;
-  background-color: #0969f3;
-  border-color: #0969f3;
+color: #fff;
+background-color: #f10410;
+border-color: #f10410;
 }
 
 .page-item.disabled .page-link {

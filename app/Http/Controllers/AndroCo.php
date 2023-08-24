@@ -17,6 +17,7 @@ use App\RouteModel;
 use App\KordinatModel;
 use App\TblCuti;
 use App\TblDinas;
+use App\LuarkantorModel;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -216,6 +217,42 @@ public function apiandro($key=null,$url=null,Request $r){
   }
 }
 
+public function getoutlocation(Request $r){
+  try {
+    $data = LuarkantorModel::where('qr_code',$r->qr_code)->count();
+    if($data > 0){
+      $data = LuarkantorModel::where('qr_code',$r->qr_code)->first();
+      $currentTime = time(); // Waktu saat ini dalam UNIX timestamp
+      $start = strtotime($data->start); // Konversi datetime start ke UNIX timestamp
+      $end = strtotime($data->end); // Konversi datetime end ke UNIX timestamp
+
+      if ($currentTime >= $start && $currentTime <= $end) {
+          $status = "BISA ABSEN";
+          $json = [
+            'status'=>$status,
+            'tempat'=>$data->nama_tempat,
+            'start'=>$data->start,
+            'end'=>$data->end,
+            'qr_code'=>$data->qr_code,
+          ];
+          print json_encode($json);
+
+      } else {
+          $status = "WAKTU HABIS";
+          $json = [
+            'status'=>$status,
+            'tempat'=>$data->nama_tempat,
+            'start'=>$data->start,
+            'end'=>$data->end,
+            'qr_code'=>$data->qr_code,
+          ];
+          print json_encode($json);
+      }
+    }
+  } catch (\Throwable $th) {
+    //throw $th;
+  }
+}
 
 public function getemployee(Request $r){
   try {

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\instansi;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\InstansiModel;
@@ -201,22 +202,30 @@ public function absenluarkantor(Request $r){
   return view('theme.absensi.luarkantor',compact('data'));
 }
 public function absenmanualsave(Request $r){
-   $data =[
-    'nama_tempat'=>$r->tempat,
-    'start'=>$r->start,
-    'end'=>$r->end,
-    'latitude'=>$r->latitude,
-    'longitude'=>$r->longitude,
-    'radius'=>$r->radius,
-    'id_user'=>Session::get('id_user'),
-    'qr_code'=>Str::uuid()->toString(),
-   ];
-   try {
-     LuarKantorModel::insert($data);
-     return back()->with('success','Data berhasil disimpan');
-   } catch (\Throwable $th) {
-     return back()->with('danger',$th->getMessage());
-   }
+  $publicKeyContents = Storage::get('encription/public_key.pem');
+  $publicKey = openssl_pkey_get_public($publicKeyContents);
+  if (openssl_public_encrypt($data, $encrypted, $publicKey)) {
+    $encryptedData = base64_encode($encrypted);
+    $data =[
+      'nama_tempat'=>$r->tempat,
+      'start'=>$r->start,
+      'end'=>$r->end,
+      'latitude'=>$r->latitude,
+      'longitude'=>$r->longitude,
+      'radius'=>$r->radius,
+      'id_user'=>Session::get('id_user'),
+      'qr_code'=>$encryptedData,
+     ];
+     try {
+       LuarKantorModel::insert($data);
+       return back()->with('success','Data berhasil disimpan');
+     } catch (\Throwable $th) {
+       return back()->with('danger',$th->getMessage());
+     }
+  }else{
+      
+  }
+   
 }
 
 public function absenmanualupdate(Request $r){

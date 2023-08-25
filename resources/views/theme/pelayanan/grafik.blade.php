@@ -34,10 +34,10 @@ $level = Level::all();
     },
     
     xAxis: {
-        categories: ['USA', 'China', 'Brazil', 'EU', 'India', 'Russia'],
+        categories: ['SKCK', 'SAT INTELKAM', 'DUMAS', 'SP2HP', 'BESUK TAHANAN', 'SIM'],
         crosshair: true,
         accessibility: {
-            description: 'Countries'
+            description: 'Pelayanan'
         }
     },
     yAxis: {

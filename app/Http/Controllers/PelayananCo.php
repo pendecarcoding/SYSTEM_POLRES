@@ -45,4 +45,7 @@
         }
 
       }
+      public function grafikikm(){
+        return view('theme.pelayanan.grafik');
+      }
     }
